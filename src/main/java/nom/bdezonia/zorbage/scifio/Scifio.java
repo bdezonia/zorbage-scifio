@@ -71,7 +71,10 @@ import nom.bdezonia.zorbage.type.int8.UnsignedInt8Member;
  */
 public class Scifio {
 
-	// TODO - variable bit length number types input into something appropriate
+	// Not handling:
+	//   1) complex float and complex double data (can scifio even return these?)
+	//   2) variable bit length data (they could be read and put into nearest types
+	//        I have)
 	
 	/**
 	 * 
@@ -118,7 +121,7 @@ public class Scifio {
 			else if (elem instanceof Unsigned128BitType)
 				bundle.mergeUInt128( loadUnsigned128BitImage( (SCIFIOImgPlus<Unsigned128BitType>) scifImgPlus) );
 			else
-				System.out.println("scifio image is of unknown type");
+				System.out.println("scifio image is of unknown type: " + elem);
 		}
 		
 		return bundle;
@@ -375,7 +378,10 @@ public class Scifio {
 	private static <U,W>
 		void fillDataset(SCIFIOImgPlus<U> input, Procedure2<U,W> converter, W outValue, DimensionedDataSource<W> output)
 	{
-		// this code is assuming that scifio/imglib and zorbage access pixels in the same order
+		// Note: this code is assuming that scifio/imglib and zorbage access pixels in the same
+		// order. To se the safest I should use a cartesian inetegr grid sampling and use a
+		// random access for Imglib and a IntegerIndex for zorbage.
+		
 		long i = 0;
 		Iterator<U> iter = input.iterator();
 		while (iter.hasNext()) {
@@ -396,7 +402,8 @@ public class Scifio {
 		}
 		output.metadata().put("input-dataset-name", input.getMetadata().getDatasetName());
 		output.metadata().put("input-dataset-size", Long.valueOf(input.getMetadata().getDatasetSize()).toString());
-		// surprisingly this one might hangs or just takes a long time. a scifio bug?
+		// surprisingly this one might hangs or just takes a long time with ImageJ's lena-std
+		// image. maybe a scifio bug? I reported it as one.
 		//output.metadata().put("input-destination-location", input.getMetadata().getDestinationLocation().toString());
 		output.metadata().put("input-format-name", input.getMetadata().getFormatName());
 		output.metadata().put("input-identifier", input.getMetadata().getIdentifier());
