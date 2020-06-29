@@ -30,7 +30,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nom.bdezonia.zorbage.data.DimensionedDataSource;
+import nom.bdezonia.zorbage.type.float32.complex.ComplexFloat32Member;
 import nom.bdezonia.zorbage.type.float32.real.Float32Member;
+import nom.bdezonia.zorbage.type.float64.complex.ComplexFloat64Member;
 import nom.bdezonia.zorbage.type.float64.real.Float64Member;
 import nom.bdezonia.zorbage.type.int12.UnsignedInt12Member;
 import nom.bdezonia.zorbage.type.int128.UnsignedInt128Member;
@@ -63,6 +65,8 @@ public class DataBundle {
 	public List<DimensionedDataSource<UnsignedInt128Member>> uint128s = new ArrayList<>();
 	public List<DimensionedDataSource<Float32Member>> floats = new ArrayList<>();
 	public List<DimensionedDataSource<Float64Member>> doubles = new ArrayList<>();
+	public List<DimensionedDataSource<ComplexFloat32Member>> cfloats = new ArrayList<>();
+	public List<DimensionedDataSource<ComplexFloat64Member>> cdoubles = new ArrayList<>();
 
 	
 	public void mergeUInt2(DimensionedDataSource<UnsignedInt2Member> ds) {
@@ -119,5 +123,13 @@ public class DataBundle {
 	
 	public void mergeDbl(DimensionedDataSource<Float64Member> ds) {
 		doubles.add(ds);
+	}
+
+	public void mergeCFlt(DimensionedDataSource<ComplexFloat32Member> ds) {
+		cfloats.add(ds);
+	}
+	
+	public void mergeCDbl(DimensionedDataSource<ComplexFloat64Member> ds) {
+		cdoubles.add(ds);
 	}
 }

@@ -31,6 +31,8 @@ import java.util.List;
 
 import io.scif.img.ImgOpener;
 import io.scif.img.SCIFIOImgPlus;
+import net.imglib2.type.numeric.complex.ComplexDoubleType;
+import net.imglib2.type.numeric.complex.ComplexFloatType;
 import net.imglib2.type.numeric.integer.ByteType;
 import net.imglib2.type.numeric.integer.IntType;
 import net.imglib2.type.numeric.integer.LongType;
@@ -49,7 +51,9 @@ import nom.bdezonia.zorbage.algebra.Allocatable;
 import nom.bdezonia.zorbage.data.DimensionedDataSource;
 import nom.bdezonia.zorbage.data.DimensionedStorage;
 import nom.bdezonia.zorbage.procedure.Procedure2;
+import nom.bdezonia.zorbage.type.float32.complex.ComplexFloat32Member;
 import nom.bdezonia.zorbage.type.float32.real.Float32Member;
+import nom.bdezonia.zorbage.type.float64.complex.ComplexFloat64Member;
 import nom.bdezonia.zorbage.type.float64.real.Float64Member;
 import nom.bdezonia.zorbage.type.int12.UnsignedInt12Member;
 import nom.bdezonia.zorbage.type.int128.UnsignedInt128Member;
@@ -71,10 +75,9 @@ import nom.bdezonia.zorbage.type.int8.UnsignedInt8Member;
  */
 public class Scifio {
 
-	// Not handling:
-	//   1) complex float and complex double data (can scifio even return these?)
-	//   2) variable bit length data (they could be read and put into nearest types
-	//        I have)
+	// Not handling yet:
+	//   variable bit length data type backed Img's (they could be read and put into nearest types
+	//   I have)
 	
 	/**
 	 * 
@@ -120,6 +123,10 @@ public class Scifio {
 				bundle.mergeUInt12( loadUnsigned12BitImage( (SCIFIOImgPlus<Unsigned12BitType>) scifImgPlus) );
 			else if (elem instanceof Unsigned128BitType)
 				bundle.mergeUInt128( loadUnsigned128BitImage( (SCIFIOImgPlus<Unsigned128BitType>) scifImgPlus) );
+			else if (elem instanceof ComplexFloatType)
+				bundle.mergeCFlt( loadComplexFloatImage( (SCIFIOImgPlus<ComplexFloatType>) scifImgPlus) );
+			else if (elem instanceof ComplexDoubleType)
+				bundle.mergeCDbl( loadComplexDoubleImage( (SCIFIOImgPlus<ComplexDoubleType>) scifImgPlus) );
 			else
 				System.out.println("scifio image is of unknown type: " + elem);
 		}
@@ -293,6 +300,44 @@ public class Scifio {
 		};
 		DimensionedDataSource<Float64Member> output = makeDataset(input, new Float64Member());
 		fillDataset(input, proc, new Float64Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+
+	private static DimensionedDataSource<ComplexFloat32Member>
+		loadComplexFloatImage(SCIFIOImgPlus<ComplexFloatType> input)
+	{
+		Procedure2<ComplexFloatType, ComplexFloat32Member> proc =
+				new Procedure2<ComplexFloatType, ComplexFloat32Member>()
+		{
+			@Override
+			public void call(ComplexFloatType in, ComplexFloat32Member out) {
+				out.setR(in.getRealFloat());
+				out.setI(in.getImaginaryFloat());
+			}
+		};
+		DimensionedDataSource<ComplexFloat32Member> output =
+				makeDataset(input, new ComplexFloat32Member());
+		fillDataset(input, proc, new ComplexFloat32Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+
+	private static DimensionedDataSource<ComplexFloat64Member>
+		loadComplexDoubleImage(SCIFIOImgPlus<ComplexDoubleType> input)
+	{
+		Procedure2<ComplexDoubleType, ComplexFloat64Member> proc =
+				new Procedure2<ComplexDoubleType, ComplexFloat64Member>()
+		{
+			@Override
+			public void call(ComplexDoubleType in, ComplexFloat64Member out) {
+				out.setR(in.getRealDouble());
+				out.setI(in.getImaginaryDouble());
+			}
+		};
+		DimensionedDataSource<ComplexFloat64Member> output =
+				makeDataset(input, new ComplexFloat64Member());
+		fillDataset(input, proc, new ComplexFloat64Member(), output);
 		updateMetadata(input, output);
 		return output;
 	}
