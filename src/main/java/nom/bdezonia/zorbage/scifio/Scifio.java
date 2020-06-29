@@ -45,6 +45,7 @@ import net.imglib2.type.numeric.integer.UnsignedByteType;
 import net.imglib2.type.numeric.integer.UnsignedIntType;
 import net.imglib2.type.numeric.integer.UnsignedLongType;
 import net.imglib2.type.numeric.integer.UnsignedShortType;
+import net.imglib2.type.numeric.integer.UnsignedVariableBitLengthType;
 import net.imglib2.type.numeric.real.DoubleType;
 import net.imglib2.type.numeric.real.FloatType;
 import nom.bdezonia.zorbage.algebra.Allocatable;
@@ -55,18 +56,30 @@ import nom.bdezonia.zorbage.type.float32.complex.ComplexFloat32Member;
 import nom.bdezonia.zorbage.type.float32.real.Float32Member;
 import nom.bdezonia.zorbage.type.float64.complex.ComplexFloat64Member;
 import nom.bdezonia.zorbage.type.float64.real.Float64Member;
+import nom.bdezonia.zorbage.type.int1.UnsignedInt1Member;
+import nom.bdezonia.zorbage.type.int10.UnsignedInt10Member;
+import nom.bdezonia.zorbage.type.int11.UnsignedInt11Member;
 import nom.bdezonia.zorbage.type.int12.UnsignedInt12Member;
 import nom.bdezonia.zorbage.type.int128.UnsignedInt128Member;
+import nom.bdezonia.zorbage.type.int13.UnsignedInt13Member;
+import nom.bdezonia.zorbage.type.int14.UnsignedInt14Member;
+import nom.bdezonia.zorbage.type.int15.UnsignedInt15Member;
 import nom.bdezonia.zorbage.type.int16.SignedInt16Member;
 import nom.bdezonia.zorbage.type.int16.UnsignedInt16Member;
 import nom.bdezonia.zorbage.type.int2.UnsignedInt2Member;
+import nom.bdezonia.zorbage.type.int3.UnsignedInt3Member;
 import nom.bdezonia.zorbage.type.int32.SignedInt32Member;
 import nom.bdezonia.zorbage.type.int32.UnsignedInt32Member;
 import nom.bdezonia.zorbage.type.int4.UnsignedInt4Member;
+import nom.bdezonia.zorbage.type.int5.UnsignedInt5Member;
+import nom.bdezonia.zorbage.type.int6.UnsignedInt6Member;
 import nom.bdezonia.zorbage.type.int64.SignedInt64Member;
 import nom.bdezonia.zorbage.type.int64.UnsignedInt64Member;
+import nom.bdezonia.zorbage.type.int7.UnsignedInt7Member;
 import nom.bdezonia.zorbage.type.int8.SignedInt8Member;
 import nom.bdezonia.zorbage.type.int8.UnsignedInt8Member;
+import nom.bdezonia.zorbage.type.int9.UnsignedInt9Member;
+import nom.bdezonia.zorbage.type.unbounded.UnboundedIntMember;
 
 /**
  * 
@@ -75,10 +88,6 @@ import nom.bdezonia.zorbage.type.int8.UnsignedInt8Member;
  */
 public class Scifio {
 
-	// Not handling yet:
-	//   variable bit length data type backed Img's (they could be read and put into nearest types
-	//   I have)
-	
 	/**
 	 * 
 	 * @param filename
@@ -127,6 +136,81 @@ public class Scifio {
 				bundle.mergeCFlt( loadComplexFloatImage( (SCIFIOImgPlus<ComplexFloatType>) scifImgPlus) );
 			else if (elem instanceof ComplexDoubleType)
 				bundle.mergeCDbl( loadComplexDoubleImage( (SCIFIOImgPlus<ComplexDoubleType>) scifImgPlus) );
+			else if (elem instanceof UnsignedVariableBitLengthType) {
+				UnsignedVariableBitLengthType type = (UnsignedVariableBitLengthType) elem;
+				int bpp = type.getBitsPerPixel();
+				switch (bpp) {
+				case 1:
+					bundle.mergeUInt1( loadUnsignedV1BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					break;
+				case 2:
+					bundle.mergeUInt2( loadUnsignedV2BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					break;
+				case 3:
+					bundle.mergeUInt3( loadUnsignedV3BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					break;
+				case 4:
+					bundle.mergeUInt4( loadUnsignedV4BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					break;
+				case 5:
+					bundle.mergeUInt5( loadUnsignedV5BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					break;
+				case 6:
+					bundle.mergeUInt6( loadUnsignedV6BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					break;
+				case 7:
+					bundle.mergeUInt7( loadUnsignedV7BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					break;
+				case 8:
+					bundle.mergeUInt8( loadUnsignedV8BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					break;
+				case 9:
+					bundle.mergeUInt9( loadUnsignedV9BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					break;
+				case 10:
+					bundle.mergeUInt10( loadUnsignedV10BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					break;
+				case 11:
+					bundle.mergeUInt11( loadUnsignedV11BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					break;
+				case 12:
+					bundle.mergeUInt12( loadUnsignedV12BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					break;
+				case 13:
+					bundle.mergeUInt13( loadUnsignedV13BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					break;
+				case 14:
+					bundle.mergeUInt14( loadUnsignedV14BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					break;
+				case 15:
+					bundle.mergeUInt15( loadUnsignedV15BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					break;
+				case 16:
+					bundle.mergeUInt16( loadUnsignedV16BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					break;
+				case 32:
+					bundle.mergeUInt32( loadUnsignedV32BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					break;
+				case 64:
+					bundle.mergeUInt64( loadUnsignedV64BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					break;
+				case 128:
+					bundle.mergeUInt128( loadUnsignedV128BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					break;
+				default:
+					if (bpp < 1)
+						throw new IllegalArgumentException("bit per pix must be > 0");
+					else if (bpp < 32)
+						bundle.mergeUInt32( loadUnsignedV32BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					else if (bpp < 64)
+						bundle.mergeUInt64( loadUnsignedV64BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					else if (bpp < 128)
+						bundle.mergeUInt128( loadUnsignedV128BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					else // bpp > 128
+						bundle.mergeBigInt( loadUnsignedBigIntImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					break;
+				}
+			}
 			else
 				System.out.println("scifio image is of unknown type: " + elem);
 		}
@@ -145,7 +229,8 @@ public class Scifio {
 				out.setV(in.get());
 			}
 		};
-		DimensionedDataSource<UnsignedInt8Member> output = makeDataset(input, new UnsignedInt8Member());
+		DimensionedDataSource<UnsignedInt8Member> output =
+				makeDataset(input, new UnsignedInt8Member());
 		fillDataset(input, proc, new UnsignedInt8Member(), output);
 		updateMetadata(input, output);
 		return output;
@@ -162,7 +247,8 @@ public class Scifio {
 				out.setV(in.get());
 			}
 		};
-		DimensionedDataSource<SignedInt8Member> output = makeDataset(input, new SignedInt8Member());
+		DimensionedDataSource<SignedInt8Member> output =
+				makeDataset(input, new SignedInt8Member());
 		fillDataset(input, proc, new SignedInt8Member(), output);
 		updateMetadata(input, output);
 		return output;
@@ -179,7 +265,8 @@ public class Scifio {
 				out.setV(in.get());
 			}
 		};
-		DimensionedDataSource<UnsignedInt16Member> output = makeDataset(input, new UnsignedInt16Member());
+		DimensionedDataSource<UnsignedInt16Member> output =
+				makeDataset(input, new UnsignedInt16Member());
 		fillDataset(input, proc, new UnsignedInt16Member(), output);
 		updateMetadata(input, output);
 		return output;
@@ -196,7 +283,8 @@ public class Scifio {
 				out.setV(in.get());
 			}
 		};
-		DimensionedDataSource<SignedInt16Member> output = makeDataset(input, new SignedInt16Member());
+		DimensionedDataSource<SignedInt16Member> output =
+				makeDataset(input, new SignedInt16Member());
 		fillDataset(input, proc, new SignedInt16Member(), output);
 		updateMetadata(input, output);
 		return output;
@@ -213,7 +301,8 @@ public class Scifio {
 				out.setV(in.get());
 			}
 		};
-		DimensionedDataSource<UnsignedInt32Member> output = makeDataset(input, new UnsignedInt32Member());
+		DimensionedDataSource<UnsignedInt32Member> output =
+				makeDataset(input, new UnsignedInt32Member());
 		fillDataset(input, proc, new UnsignedInt32Member(), output);
 		updateMetadata(input, output);
 		return output;
@@ -230,7 +319,8 @@ public class Scifio {
 				out.setV(in.get());
 			}
 		};
-		DimensionedDataSource<SignedInt32Member> output = makeDataset(input, new SignedInt32Member());
+		DimensionedDataSource<SignedInt32Member> output =
+				makeDataset(input, new SignedInt32Member());
 		fillDataset(input, proc, new SignedInt32Member(), output);
 		updateMetadata(input, output);
 		return output;
@@ -247,7 +337,8 @@ public class Scifio {
 				out.setV(in.getBigInteger());
 			}
 		};
-		DimensionedDataSource<UnsignedInt64Member> output = makeDataset(input, new UnsignedInt64Member());
+		DimensionedDataSource<UnsignedInt64Member> output =
+				makeDataset(input, new UnsignedInt64Member());
 		fillDataset(input, proc, new UnsignedInt64Member(), output);
 		updateMetadata(input, output);
 		return output;
@@ -264,7 +355,8 @@ public class Scifio {
 				out.setV(in.get());
 			}
 		};
-		DimensionedDataSource<SignedInt64Member> output = makeDataset(input, new SignedInt64Member());
+		DimensionedDataSource<SignedInt64Member> output =
+				makeDataset(input, new SignedInt64Member());
 		fillDataset(input, proc, new SignedInt64Member(), output);
 		updateMetadata(input, output);
 		return output;
@@ -281,7 +373,8 @@ public class Scifio {
 				out.setV(in.get());
 			}
 		};
-		DimensionedDataSource<Float32Member> output = makeDataset(input, new Float32Member());
+		DimensionedDataSource<Float32Member> output =
+				makeDataset(input, new Float32Member());
 		fillDataset(input, proc, new Float32Member(), output);
 		updateMetadata(input, output);
 		return output;
@@ -298,7 +391,8 @@ public class Scifio {
 				out.setV(in.get());
 			}
 		};
-		DimensionedDataSource<Float64Member> output = makeDataset(input, new Float64Member());
+		DimensionedDataSource<Float64Member> output =
+				makeDataset(input, new Float64Member());
 		fillDataset(input, proc, new Float64Member(), output);
 		updateMetadata(input, output);
 		return output;
@@ -353,7 +447,8 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
-		DimensionedDataSource<UnsignedInt2Member> output = makeDataset(input, new UnsignedInt2Member());
+		DimensionedDataSource<UnsignedInt2Member> output =
+				makeDataset(input, new UnsignedInt2Member());
 		fillDataset(input, proc, new UnsignedInt2Member(), output);
 		updateMetadata(input, output);
 		return output;
@@ -370,7 +465,8 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
-		DimensionedDataSource<UnsignedInt4Member> output = makeDataset(input, new UnsignedInt4Member());
+		DimensionedDataSource<UnsignedInt4Member> output =
+				makeDataset(input, new UnsignedInt4Member());
 		fillDataset(input, proc, new UnsignedInt4Member(), output);
 		updateMetadata(input, output);
 		return output;
@@ -387,7 +483,8 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
-		DimensionedDataSource<UnsignedInt12Member> output = makeDataset(input, new UnsignedInt12Member());
+		DimensionedDataSource<UnsignedInt12Member> output =
+				makeDataset(input, new UnsignedInt12Member());
 		fillDataset(input, proc, new UnsignedInt12Member(), output);
 		updateMetadata(input, output);
 		return output;
@@ -404,8 +501,369 @@ public class Scifio {
 				out.setV(in.get());
 			}
 		};
-		DimensionedDataSource<UnsignedInt128Member> output = makeDataset(input, new UnsignedInt128Member());
+		DimensionedDataSource<UnsignedInt128Member> output =
+				makeDataset(input, new UnsignedInt128Member());
 		fillDataset(input, proc, new UnsignedInt128Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+
+	private static DimensionedDataSource<UnsignedInt1Member>
+		loadUnsignedV1BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
+	{
+		Procedure2<UnsignedVariableBitLengthType, UnsignedInt1Member> proc =
+				new Procedure2<UnsignedVariableBitLengthType, UnsignedInt1Member>()
+		{
+			@Override
+			public void call(UnsignedVariableBitLengthType in, UnsignedInt1Member out) {
+				out.setV(in.getInteger());
+			}
+		};
+		DimensionedDataSource<UnsignedInt1Member> output =
+				makeDataset(input, new UnsignedInt1Member());
+		fillDataset(input, proc, new UnsignedInt1Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+
+	private static DimensionedDataSource<UnsignedInt2Member>
+		loadUnsignedV2BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
+	{
+		Procedure2<UnsignedVariableBitLengthType, UnsignedInt2Member> proc =
+				new Procedure2<UnsignedVariableBitLengthType, UnsignedInt2Member>()
+		{
+			@Override
+			public void call(UnsignedVariableBitLengthType in, UnsignedInt2Member out) {
+				out.setV(in.getInteger());
+			}
+		};
+		DimensionedDataSource<UnsignedInt2Member> output =
+				makeDataset(input, new UnsignedInt2Member());
+		fillDataset(input, proc, new UnsignedInt2Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+
+	private static DimensionedDataSource<UnsignedInt3Member>
+		loadUnsignedV3BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
+	{
+		Procedure2<UnsignedVariableBitLengthType, UnsignedInt3Member> proc =
+				new Procedure2<UnsignedVariableBitLengthType, UnsignedInt3Member>()
+		{
+			@Override
+			public void call(UnsignedVariableBitLengthType in, UnsignedInt3Member out) {
+				out.setV(in.getInteger());
+			}
+		};
+		DimensionedDataSource<UnsignedInt3Member> output =
+				makeDataset(input, new UnsignedInt3Member());
+		fillDataset(input, proc, new UnsignedInt3Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+
+	private static DimensionedDataSource<UnsignedInt4Member>
+		loadUnsignedV4BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
+	{
+		Procedure2<UnsignedVariableBitLengthType, UnsignedInt4Member> proc =
+				new Procedure2<UnsignedVariableBitLengthType, UnsignedInt4Member>()
+		{
+			@Override
+			public void call(UnsignedVariableBitLengthType in, UnsignedInt4Member out) {
+				out.setV(in.getInteger());
+			}
+		};
+		DimensionedDataSource<UnsignedInt4Member> output =
+				makeDataset(input, new UnsignedInt4Member());
+		fillDataset(input, proc, new UnsignedInt4Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+
+	private static DimensionedDataSource<UnsignedInt5Member>
+		loadUnsignedV5BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
+	{
+		Procedure2<UnsignedVariableBitLengthType, UnsignedInt5Member> proc =
+				new Procedure2<UnsignedVariableBitLengthType, UnsignedInt5Member>()
+		{
+			@Override
+			public void call(UnsignedVariableBitLengthType in, UnsignedInt5Member out) {
+				out.setV(in.getInteger());
+			}
+		};
+		DimensionedDataSource<UnsignedInt5Member> output =
+				makeDataset(input, new UnsignedInt5Member());
+		fillDataset(input, proc, new UnsignedInt5Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+
+	private static DimensionedDataSource<UnsignedInt6Member>
+		loadUnsignedV6BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
+	{
+		Procedure2<UnsignedVariableBitLengthType, UnsignedInt6Member> proc =
+				new Procedure2<UnsignedVariableBitLengthType, UnsignedInt6Member>()
+		{
+			@Override
+			public void call(UnsignedVariableBitLengthType in, UnsignedInt6Member out) {
+				out.setV(in.getInteger());
+			}
+		};
+		DimensionedDataSource<UnsignedInt6Member> output =
+				makeDataset(input, new UnsignedInt6Member());
+		fillDataset(input, proc, new UnsignedInt6Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+
+	private static DimensionedDataSource<UnsignedInt7Member>
+		loadUnsignedV7BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
+	{
+		Procedure2<UnsignedVariableBitLengthType, UnsignedInt7Member> proc =
+				new Procedure2<UnsignedVariableBitLengthType, UnsignedInt7Member>()
+		{
+			@Override
+			public void call(UnsignedVariableBitLengthType in, UnsignedInt7Member out) {
+				out.setV(in.getInteger());
+			}
+		};
+		DimensionedDataSource<UnsignedInt7Member> output =
+				makeDataset(input, new UnsignedInt7Member());
+		fillDataset(input, proc, new UnsignedInt7Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+
+	private static DimensionedDataSource<UnsignedInt8Member>
+		loadUnsignedV8BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
+	{
+		Procedure2<UnsignedVariableBitLengthType, UnsignedInt8Member> proc =
+				new Procedure2<UnsignedVariableBitLengthType, UnsignedInt8Member>()
+		{
+			@Override
+			public void call(UnsignedVariableBitLengthType in, UnsignedInt8Member out) {
+				out.setV(in.getInteger());
+			}
+		};
+		DimensionedDataSource<UnsignedInt8Member> output =
+				makeDataset(input, new UnsignedInt8Member());
+		fillDataset(input, proc, new UnsignedInt8Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+
+	private static DimensionedDataSource<UnsignedInt9Member>
+		loadUnsignedV9BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
+	{
+		Procedure2<UnsignedVariableBitLengthType, UnsignedInt9Member> proc =
+				new Procedure2<UnsignedVariableBitLengthType, UnsignedInt9Member>()
+		{
+			@Override
+			public void call(UnsignedVariableBitLengthType in, UnsignedInt9Member out) {
+				out.setV(in.getInteger());
+			}
+		};
+		DimensionedDataSource<UnsignedInt9Member> output =
+				makeDataset(input, new UnsignedInt9Member());
+		fillDataset(input, proc, new UnsignedInt9Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+
+	private static DimensionedDataSource<UnsignedInt10Member>
+		loadUnsignedV10BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
+	{
+		Procedure2<UnsignedVariableBitLengthType, UnsignedInt10Member> proc =
+				new Procedure2<UnsignedVariableBitLengthType, UnsignedInt10Member>()
+		{
+			@Override
+			public void call(UnsignedVariableBitLengthType in, UnsignedInt10Member out) {
+				out.setV(in.getInteger());
+			}
+		};
+		DimensionedDataSource<UnsignedInt10Member> output =
+				makeDataset(input, new UnsignedInt10Member());
+		fillDataset(input, proc, new UnsignedInt10Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+
+	private static DimensionedDataSource<UnsignedInt11Member>
+		loadUnsignedV11BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
+	{
+		Procedure2<UnsignedVariableBitLengthType, UnsignedInt11Member> proc =
+				new Procedure2<UnsignedVariableBitLengthType, UnsignedInt11Member>()
+		{
+			@Override
+			public void call(UnsignedVariableBitLengthType in, UnsignedInt11Member out) {
+				out.setV(in.getInteger());
+			}
+		};
+		DimensionedDataSource<UnsignedInt11Member> output =
+				makeDataset(input, new UnsignedInt11Member());
+		fillDataset(input, proc, new UnsignedInt11Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+
+	private static DimensionedDataSource<UnsignedInt12Member>
+		loadUnsignedV12BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
+	{
+		Procedure2<UnsignedVariableBitLengthType, UnsignedInt12Member> proc =
+				new Procedure2<UnsignedVariableBitLengthType, UnsignedInt12Member>()
+		{
+			@Override
+			public void call(UnsignedVariableBitLengthType in, UnsignedInt12Member out) {
+				out.setV(in.getInteger());
+			}
+		};
+		DimensionedDataSource<UnsignedInt12Member> output =
+				makeDataset(input, new UnsignedInt12Member());
+		fillDataset(input, proc, new UnsignedInt12Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+
+	private static DimensionedDataSource<UnsignedInt13Member>
+		loadUnsignedV13BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
+	{
+		Procedure2<UnsignedVariableBitLengthType, UnsignedInt13Member> proc =
+				new Procedure2<UnsignedVariableBitLengthType, UnsignedInt13Member>()
+		{
+			@Override
+			public void call(UnsignedVariableBitLengthType in, UnsignedInt13Member out) {
+				out.setV(in.getInteger());
+			}
+		};
+		DimensionedDataSource<UnsignedInt13Member> output =
+				makeDataset(input, new UnsignedInt13Member());
+		fillDataset(input, proc, new UnsignedInt13Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+
+	private static DimensionedDataSource<UnsignedInt14Member>
+		loadUnsignedV14BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
+	{
+		Procedure2<UnsignedVariableBitLengthType, UnsignedInt14Member> proc =
+				new Procedure2<UnsignedVariableBitLengthType, UnsignedInt14Member>()
+		{
+			@Override
+			public void call(UnsignedVariableBitLengthType in, UnsignedInt14Member out) {
+				out.setV(in.getInteger());
+			}
+		};
+		DimensionedDataSource<UnsignedInt14Member> output =
+				makeDataset(input, new UnsignedInt14Member());
+		fillDataset(input, proc, new UnsignedInt14Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+
+	private static DimensionedDataSource<UnsignedInt15Member>
+		loadUnsignedV15BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
+	{
+		Procedure2<UnsignedVariableBitLengthType, UnsignedInt15Member> proc =
+				new Procedure2<UnsignedVariableBitLengthType, UnsignedInt15Member>()
+		{
+			@Override
+			public void call(UnsignedVariableBitLengthType in, UnsignedInt15Member out) {
+				out.setV(in.getInteger());
+			}
+		};
+		DimensionedDataSource<UnsignedInt15Member> output =
+				makeDataset(input, new UnsignedInt15Member());
+		fillDataset(input, proc, new UnsignedInt15Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+
+	private static DimensionedDataSource<UnsignedInt16Member>
+		loadUnsignedV16BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
+	{
+		Procedure2<UnsignedVariableBitLengthType, UnsignedInt16Member> proc =
+				new Procedure2<UnsignedVariableBitLengthType, UnsignedInt16Member>()
+		{
+			@Override
+			public void call(UnsignedVariableBitLengthType in, UnsignedInt16Member out) {
+				out.setV(in.getInteger());
+			}
+		};
+		DimensionedDataSource<UnsignedInt16Member> output =
+				makeDataset(input, new UnsignedInt16Member());
+		fillDataset(input, proc, new UnsignedInt16Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+
+	private static DimensionedDataSource<UnsignedInt32Member>
+		loadUnsignedV32BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
+	{
+		Procedure2<UnsignedVariableBitLengthType, UnsignedInt32Member> proc =
+				new Procedure2<UnsignedVariableBitLengthType, UnsignedInt32Member>()
+		{
+			@Override
+			public void call(UnsignedVariableBitLengthType in, UnsignedInt32Member out) {
+				out.setV(in.get());
+			}
+		};
+		DimensionedDataSource<UnsignedInt32Member> output =
+				makeDataset(input, new UnsignedInt32Member());
+		fillDataset(input, proc, new UnsignedInt32Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+
+	private static DimensionedDataSource<UnsignedInt64Member>
+		loadUnsignedV64BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
+	{
+		Procedure2<UnsignedVariableBitLengthType, UnsignedInt64Member> proc =
+				new Procedure2<UnsignedVariableBitLengthType, UnsignedInt64Member>()
+		{
+			@Override
+			public void call(UnsignedVariableBitLengthType in, UnsignedInt64Member out) {
+				out.setV(in.getBigInteger());
+			}
+		};
+		DimensionedDataSource<UnsignedInt64Member> output =
+				makeDataset(input, new UnsignedInt64Member());
+		fillDataset(input, proc, new UnsignedInt64Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+	
+	private static DimensionedDataSource<UnsignedInt128Member>
+		loadUnsignedV128BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
+	{
+		Procedure2<UnsignedVariableBitLengthType, UnsignedInt128Member> proc =
+				new Procedure2<UnsignedVariableBitLengthType, UnsignedInt128Member>()
+		{
+			@Override
+			public void call(UnsignedVariableBitLengthType in, UnsignedInt128Member out) {
+				out.setV(in.getBigInteger());
+			}
+		};
+		DimensionedDataSource<UnsignedInt128Member> output =
+				makeDataset(input, new UnsignedInt128Member());
+		fillDataset(input, proc, new UnsignedInt128Member(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+	
+	private static DimensionedDataSource<UnboundedIntMember>
+		loadUnsignedBigIntImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
+	{
+		Procedure2<UnsignedVariableBitLengthType, UnboundedIntMember> proc =
+				new Procedure2<UnsignedVariableBitLengthType, UnboundedIntMember>()
+		{
+			@Override
+			public void call(UnsignedVariableBitLengthType in, UnboundedIntMember out) {
+				out.setV(in.getBigInteger());
+			}
+		};
+		DimensionedDataSource<UnboundedIntMember> output =
+				makeDataset(input, new UnboundedIntMember());
+		fillDataset(input, proc, new UnboundedIntMember(), output);
 		updateMetadata(input, output);
 		return output;
 	}
