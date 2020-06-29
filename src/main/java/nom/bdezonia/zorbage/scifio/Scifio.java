@@ -139,6 +139,8 @@ public class Scifio {
 			else if (elem instanceof UnsignedVariableBitLengthType) {
 				UnsignedVariableBitLengthType type = (UnsignedVariableBitLengthType) elem;
 				int bpp = type.getBitsPerPixel();
+				if (bpp < 1)
+					throw new IllegalArgumentException("bit per pix must be > 0");
 				switch (bpp) {
 				case 1:
 					bundle.mergeUInt1( loadUnsignedV1BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
@@ -188,23 +190,12 @@ public class Scifio {
 				case 16:
 					bundle.mergeUInt16( loadUnsignedV16BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
 					break;
-				case 32:
-					bundle.mergeUInt32( loadUnsignedV32BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					break;
-				case 64:
-					bundle.mergeUInt64( loadUnsignedV64BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					break;
-				case 128:
-					bundle.mergeUInt128( loadUnsignedV128BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					break;
 				default:
-					if (bpp < 1)
-						throw new IllegalArgumentException("bit per pix must be > 0");
-					else if (bpp < 32)
+					if (bpp <= 32)
 						bundle.mergeUInt32( loadUnsignedV32BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					else if (bpp < 64)
+					else if (bpp <= 64)
 						bundle.mergeUInt64( loadUnsignedV64BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					else if (bpp < 128)
+					else if (bpp <= 128)
 						bundle.mergeUInt128( loadUnsignedV128BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
 					else // bpp > 128
 						bundle.mergeBigInt( loadUnsignedBigIntImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
