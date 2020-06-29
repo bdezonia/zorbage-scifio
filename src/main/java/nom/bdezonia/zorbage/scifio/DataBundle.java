@@ -57,6 +57,7 @@ import nom.bdezonia.zorbage.type.int7.UnsignedInt7Member;
 import nom.bdezonia.zorbage.type.int8.SignedInt8Member;
 import nom.bdezonia.zorbage.type.int8.UnsignedInt8Member;
 import nom.bdezonia.zorbage.type.int9.UnsignedInt9Member;
+import nom.bdezonia.zorbage.type.rgb.ArgbMember;
 import nom.bdezonia.zorbage.type.unbounded.UnboundedIntMember;
 
 /**
@@ -91,6 +92,7 @@ public class DataBundle {
 	public List<DimensionedDataSource<Float64Member>> doubles = new ArrayList<>();
 	public List<DimensionedDataSource<ComplexFloat32Member>> cfloats = new ArrayList<>();
 	public List<DimensionedDataSource<ComplexFloat64Member>> cdoubles = new ArrayList<>();
+	public List<DimensionedDataSource<ArgbMember>> argbs = new ArrayList<>();
 
 	
 	public void mergeUInt1(DimensionedDataSource<UnsignedInt1Member> ds) {
@@ -203,5 +205,9 @@ public class DataBundle {
 	
 	public void mergeCDbl(DimensionedDataSource<ComplexFloat64Member> ds) {
 		cdoubles.add(ds);
+	}
+	
+	public void mergeArgb(DimensionedDataSource<ArgbMember> ds) {
+		argbs.add(ds);
 	}
 }

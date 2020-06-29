@@ -31,6 +31,7 @@ import java.util.List;
 
 import io.scif.img.ImgOpener;
 import io.scif.img.SCIFIOImgPlus;
+import net.imglib2.type.numeric.ARGBType;
 import net.imglib2.type.numeric.complex.ComplexDoubleType;
 import net.imglib2.type.numeric.complex.ComplexFloatType;
 import net.imglib2.type.numeric.integer.ByteType;
@@ -79,6 +80,7 @@ import nom.bdezonia.zorbage.type.int7.UnsignedInt7Member;
 import nom.bdezonia.zorbage.type.int8.SignedInt8Member;
 import nom.bdezonia.zorbage.type.int8.UnsignedInt8Member;
 import nom.bdezonia.zorbage.type.int9.UnsignedInt9Member;
+import nom.bdezonia.zorbage.type.rgb.ArgbMember;
 import nom.bdezonia.zorbage.type.unbounded.UnboundedIntMember;
 
 /**
@@ -136,6 +138,8 @@ public class Scifio {
 				bundle.mergeCFlt( loadComplexFloatImage( (SCIFIOImgPlus<ComplexFloatType>) scifImgPlus) );
 			else if (elem instanceof ComplexDoubleType)
 				bundle.mergeCDbl( loadComplexDoubleImage( (SCIFIOImgPlus<ComplexDoubleType>) scifImgPlus) );
+			else if (elem instanceof ARGBType)
+				bundle.mergeArgb( loadARGBTypeImage( (SCIFIOImgPlus<ARGBType>) scifImgPlus) );
 			else if (elem instanceof UnsignedVariableBitLengthType) {
 				UnsignedVariableBitLengthType type = (UnsignedVariableBitLengthType) elem;
 				int bpp = type.getBitsPerPixel();
@@ -855,6 +859,28 @@ public class Scifio {
 		DimensionedDataSource<UnboundedIntMember> output =
 				makeDataset(input, new UnboundedIntMember());
 		fillDataset(input, proc, new UnboundedIntMember(), output);
+		updateMetadata(input, output);
+		return output;
+	}
+	
+	private static DimensionedDataSource<ArgbMember>
+		loadARGBTypeImage(SCIFIOImgPlus<ARGBType> input)
+	{
+		Procedure2<ARGBType, ArgbMember> proc =
+				new Procedure2<ARGBType, ArgbMember>()
+		{
+			@Override
+			public void call(ARGBType in, ArgbMember out) {
+				int value = in.get();
+				out.setA(ARGBType.alpha(value));
+				out.setR(ARGBType.red(value));
+				out.setG(ARGBType.green(value));
+				out.setB(ARGBType.blue(value));
+			}
+		};
+		DimensionedDataSource<ArgbMember> output =
+				makeDataset(input, new ArgbMember());
+		fillDataset(input, proc, new ArgbMember(), output);
 		updateMetadata(input, output);
 		return output;
 	}
