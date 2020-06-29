@@ -1,4 +1,5 @@
-zorbage-scifio: code for loading data files using the scifio engine into zorbage data structures for further processing
+zorbage-scifio: code for using the SCIFIO data file library to open files into zorbage data structures for further processing
 
 To learn more about Zorbage please visit https://github.com/bdezonia/zorbage
 
+To learn more about SCIFIO please visit https://github.com/scifio/scifio
