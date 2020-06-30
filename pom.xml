@@ -2,10 +2,10 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.bdezonia</groupId>
   <artifactId>zorbage-scifio</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1</version>
   <name>zorbage-scifio</name>
   <description>zorbage-scifio: code for loading data files using the scifio engine into zorbage data structures for further processing</description>
-  <url>https://github.com/bdezonia/zorbage-bioformats</url>
+  <url>https://github.com/bdezonia/zorbage-scifio</url>
   <inceptionYear>2020</inceptionYear>
 
   <licenses>
@@ -31,7 +31,7 @@
     <package-name>nom.bdezonia</package-name>
     <license.licenseName>bsd_2</license.licenseName>
     <license.projectName>zorbage-scifio:  code for loading data files using the scifio engine into zorbage data structures for further processing</license.projectName>
-    <license.organizationName>zorbage-biformats authors</license.organizationName>
+    <license.organizationName>zorbage-scifio authors</license.organizationName>
     <license.copyrightOwners>Barry DeZonia</license.copyrightOwners>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -56,6 +56,22 @@
     </developer>
   </developers>
 
+  <dependencies>
+
+    <dependency>
+      <groupId>io.github.bdezonia</groupId>
+      <artifactId>zorbage</artifactId>
+      <version>1.4.0</version>
+    </dependency>
+  
+    <dependency>
+      <groupId>io.scif</groupId>
+      <artifactId>scifio</artifactId>
+      <version>0.41.0</version>
+    </dependency>
+
+  </dependencies>
+
   <build>
     <plugins>
       <plugin>
@@ -66,31 +82,80 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M4</version>
+        <configuration>
+          <!--
+            <parallel>classes</parallel>
+            <useUnlimitedThreads>true</useUnlimitedThreads>
+          -->
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.1.1</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.6</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.8</version>
+        <extensions>true</extensions>
+        <configuration>
+           <serverId>ossrh</serverId>
+           <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+           <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
-  <repositories>
+  <distributionManagement>
+    <snapshotRepository>
+	  <id>ossrh</id>
+	  <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
     <repository>
-      <id>scifio-stuff</id>
-      <name>ImageJ Releases</name>
-      <url>http://maven.imagej.net/content/repositories/releases</url>
+	  <id>ossrh</id>
+	  <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
-  </repositories>
-  
-  <dependencies>
-
-    <dependency>
-      <groupId>io.github.bdezonia</groupId>
-      <artifactId>zorbage</artifactId>
-      <version>1.4.0-SNAPSHOT</version>
-    </dependency>
-  
-    <dependency>
-      <groupId>io.scif</groupId>
-      <artifactId>scifio</artifactId>
-      <version>0.41.0</version>
-    </dependency>
-
-  </dependencies>
+  </distributionManagement>
 
 </project>
