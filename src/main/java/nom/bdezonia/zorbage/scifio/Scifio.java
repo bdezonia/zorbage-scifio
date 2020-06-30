@@ -29,8 +29,11 @@ package nom.bdezonia.zorbage.scifio;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.net.SMTPAppender;
+
 import io.scif.img.ImgOpener;
 import io.scif.img.SCIFIOImgPlus;
+import net.imglib2.RandomAccess;
 import net.imglib2.type.numeric.ARGBType;
 import net.imglib2.type.numeric.complex.ComplexDoubleType;
 import net.imglib2.type.numeric.complex.ComplexFloatType;
@@ -53,6 +56,9 @@ import nom.bdezonia.zorbage.algebra.Allocatable;
 import nom.bdezonia.zorbage.data.DimensionedDataSource;
 import nom.bdezonia.zorbage.data.DimensionedStorage;
 import nom.bdezonia.zorbage.procedure.Procedure2;
+import nom.bdezonia.zorbage.sampling.IntegerIndex;
+import nom.bdezonia.zorbage.sampling.SamplingCartesianIntegerGrid;
+import nom.bdezonia.zorbage.sampling.SamplingIterator;
 import nom.bdezonia.zorbage.type.float32.complex.ComplexFloat32Member;
 import nom.bdezonia.zorbage.type.float32.real.Float32Member;
 import nom.bdezonia.zorbage.type.float64.complex.ComplexFloat64Member;
@@ -898,17 +904,35 @@ public class Scifio {
 	private static <U,W>
 		void fillDataset(SCIFIOImgPlus<U> input, Procedure2<U,W> converter, W outValue, DimensionedDataSource<W> output)
 	{
-		// Note: this code is assuming that scifio/imglib and zorbage access pixels in the same
-		// order. To se the safest I should use a cartesian inetegr grid sampling and use a
-		// random access for Imglib and a IntegerIndex for zorbage.
+		int numD = output.numDimensions();
 		
-		long i = 0;
-		Iterator<U> iter = input.iterator();
+		IntegerIndex index = new IntegerIndex(numD);
+		
+		long[] minPt = new long[numD];
+		
+		long[] maxPt = new long[numD];
+		
+		for (int i = 0; i < numD; i++) {
+			maxPt[i] = output.dimension(i) - 1;
+		}
+		
+		SamplingCartesianIntegerGrid grid = new SamplingCartesianIntegerGrid(minPt, maxPt);
+		
+		SamplingIterator<IntegerIndex> iter = grid.iterator();
+		
+		RandomAccess<U> r = input.randomAccess();
+		
+		long[] pnt = new long[numD];
+		
 		while (iter.hasNext()) {
-			U inValue = iter.next();
+			iter.next(index);
+			for (int i = 0; i < numD; i++) {
+				pnt[i] = index.get(i);
+			}
+			r.setPosition(pnt);
+			U inValue = r.get();
 			converter.call(inValue, outValue);
-			output.rawData().set(i, outValue);
-			i++;
+			output.set(index, outValue);
 		}
 	}
 
