@@ -26,10 +26,7 @@
  */
 package nom.bdezonia.zorbage.scifio;
 
-import java.util.Iterator;
 import java.util.List;
-
-import org.apache.log4j.net.SMTPAppender;
 
 import io.scif.img.ImgOpener;
 import io.scif.img.SCIFIOImgPlus;
