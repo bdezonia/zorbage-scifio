@@ -56,6 +56,14 @@
     </developer>
   </developers>
 
+  <repositories>
+    <repository>
+      <id>scifio-stuff</id>
+      <name>ImageJ Releases</name>
+      <url>http://maven.imagej.net/content/repositories/releases</url>
+    </repository>
+  </repositories>
+  
   <dependencies>
 
     <dependency>
