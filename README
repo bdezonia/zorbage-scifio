@@ -7,3 +7,20 @@ To learn more about SCIFIO please visit https://github.com/scifio/scifio
 Code example to open all data associated with a data file:
 
   DataBundle results = Scifio.open("sunset.jpg");
+
+How to include zorbage-scifio in your Maven project
+
+  Add the following dependency to your project's pom.xml:
+  
+  <dependency>
+    <groupId>io.github.bdezonia</groupId>
+    <artifactId>zorbage-scifio</artifactId>
+    <version>0.0.1</version>
+  </dependency>
+  
+How to include zorbage-scifio in a different build system
+
+  See https://search.maven.org/artifact/io.github.bdezonia/zorbage-scifio/0.0.1/jar
+  for instructions on how to reference zorbage-scifio in build systems such as
+  Gradle or others.
+
