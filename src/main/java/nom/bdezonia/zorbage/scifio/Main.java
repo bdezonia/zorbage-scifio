@@ -26,6 +26,9 @@
  */
 package nom.bdezonia.zorbage.scifio;
 
+import nom.bdezonia.zorbage.data.DimensionedDataSource;
+import nom.bdezonia.zorbage.type.float32.real.Float32Member;
+
 /**
  * 
  * @author Barry DeZonia
@@ -33,20 +36,29 @@ package nom.bdezonia.zorbage.scifio;
  */
 public class Main {
 
-	void test()
+	/* public */ static void main(String[] args)
 	{
 		try {
-			String filename = "/home/bdz/images/imagej-samples/lena-std.tif";
+			String filename = "/home/bdz/images/fitsfile.fits";
+//			String filename = "/home/bdz/images/imagej-samples/lena-std.tif";
 //			String filename = "/home/bdz/images/imagej-samples/t1-head.tif";
 //			String filename = "/home/bdz/images/imagej-samples/clown.jpg";
 //			String filename = "/home/bdz/images/modis/modis.hdf";
 
 			DataBundle bundle = Scifio.open(filename);
 			
-			System.out.println(bundle.uint8s.size());
+			System.out.println(bundle.floats.size());
+			System.out.println(bundle.floats.get(0).numDimensions());
+			System.out.println(bundle.floats.get(0).dimension(0));
+			System.out.println(bundle.floats.get(0).dimension(1));
+			//System.out.println(bundle.floats.get(0).dimension(2));
 			
+			@SuppressWarnings("unused")
+			DimensionedDataSource<Float32Member> ds = bundle.floats.get(0);
+			
+			System.out.println("boogah");
 		} catch (Exception e) {
-			;
+			System.out.println("EXCEPTION "+e);
 		}
 	}
 }
