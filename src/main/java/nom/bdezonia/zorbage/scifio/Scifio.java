@@ -99,7 +99,7 @@ public class Scifio {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static DataBundle open(String filename) {
+	public static DataBundle loadAllDatasets(String filename) {
 		
 		DataBundle bundle = new DataBundle();
 		

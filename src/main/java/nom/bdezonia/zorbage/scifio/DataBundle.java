@@ -96,118 +96,147 @@ public class DataBundle {
 
 	
 	public void mergeUInt1(DimensionedDataSource<UnsignedInt1Member> ds) {
-		uint1s.add(ds);
+		if (ds != null)
+			uint1s.add(ds);
 	}
 	
 	public void mergeUInt2(DimensionedDataSource<UnsignedInt2Member> ds) {
-		uint2s.add(ds);
+		if (ds != null)
+			uint2s.add(ds);
 	}
 	
 	public void mergeUInt3(DimensionedDataSource<UnsignedInt3Member> ds) {
-		uint3s.add(ds);
+		if (ds != null)
+			uint3s.add(ds);
 	}
 	
 	public void mergeUInt4(DimensionedDataSource<UnsignedInt4Member> ds) {
-		uint4s.add(ds);
+		if (ds != null)
+			uint4s.add(ds);
 	}
 	
 	public void mergeUInt5(DimensionedDataSource<UnsignedInt5Member> ds) {
-		uint5s.add(ds);
+		if (ds != null)
+			uint5s.add(ds);
 	}
 	
 	public void mergeUInt6(DimensionedDataSource<UnsignedInt6Member> ds) {
-		uint6s.add(ds);
+		if (ds != null)
+			uint6s.add(ds);
 	}
 	
 	public void mergeUInt7(DimensionedDataSource<UnsignedInt7Member> ds) {
-		uint7s.add(ds);
+		if (ds != null)
+			uint7s.add(ds);
 	}
 	
 	public void mergeUInt8(DimensionedDataSource<UnsignedInt8Member> ds) {
-		uint8s.add(ds);
+		if (ds != null)
+			uint8s.add(ds);
 	}
 	
 	public void mergeInt8(DimensionedDataSource<SignedInt8Member> ds) {
-		int8s.add(ds);
+		if (ds != null)
+			int8s.add(ds);
 	}
 	
 	public void mergeUInt9(DimensionedDataSource<UnsignedInt9Member> ds) {
-		uint9s.add(ds);
+		if (ds != null)
+			uint9s.add(ds);
 	}
 	
 	public void mergeUInt10(DimensionedDataSource<UnsignedInt10Member> ds) {
-		uint10s.add(ds);
+		if (ds != null)
+			uint10s.add(ds);
 	}
 	
 	public void mergeUInt11(DimensionedDataSource<UnsignedInt11Member> ds) {
-		uint11s.add(ds);
+		if (ds != null)
+			uint11s.add(ds);
 	}
 	
 	public void mergeUInt12(DimensionedDataSource<UnsignedInt12Member> ds) {
-		uint12s.add(ds);
+		if (ds != null)
+			uint12s.add(ds);
 	}
 
 	public void mergeUInt13(DimensionedDataSource<UnsignedInt13Member> ds) {
-		uint13s.add(ds);
+		if (ds != null)
+			uint13s.add(ds);
 	}
 	
 	public void mergeUInt14(DimensionedDataSource<UnsignedInt14Member> ds) {
-		uint14s.add(ds);
+		if (ds != null)
+			uint14s.add(ds);
 	}
 	
 	public void mergeUInt15(DimensionedDataSource<UnsignedInt15Member> ds) {
-		uint15s.add(ds);
+		if (ds != null)
+			uint15s.add(ds);
 	}
 	
 	public void mergeUInt16(DimensionedDataSource<UnsignedInt16Member> ds) {
-		uint16s.add(ds);
+		if (ds != null)
+			uint16s.add(ds);
 	}
 	
 	public void mergeInt16(DimensionedDataSource<SignedInt16Member> ds) {
-		int16s.add(ds);
+		if (ds != null)
+			int16s.add(ds);
 	}
 	
 	public void mergeUInt32(DimensionedDataSource<UnsignedInt32Member> ds) {
-		uint32s.add(ds);
+		if (ds != null)
+			uint32s.add(ds);
 	}
 	
 	public void mergeInt32(DimensionedDataSource<SignedInt32Member> ds) {
-		int32s.add(ds);
+		if (ds != null)
+			int32s.add(ds);
 	}
 	
 	public void mergeUInt64(DimensionedDataSource<UnsignedInt64Member> ds) {
-		uint64s.add(ds);
+		if (ds != null)
+			uint64s.add(ds);
 	}
 	
 	public void mergeInt64(DimensionedDataSource<SignedInt64Member> ds) {
-		int64s.add(ds);
+		if (ds != null)
+			int64s.add(ds);
 	}
 	
 	public void mergeUInt128(DimensionedDataSource<UnsignedInt128Member> ds) {
-		uint128s.add(ds);
+		if (ds != null)
+			uint128s.add(ds);
 	}
 	
 	public void mergeBigInt(DimensionedDataSource<UnboundedIntMember> ds) {
-		bigs.add(ds);
+		if (ds != null)
+			bigs.add(ds);
 	}
 
 	public void mergeFlt(DimensionedDataSource<Float32Member> ds) {
-		floats.add(ds);
+		if (ds != null)
+			floats.add(ds);
 	}
 	
 	public void mergeDbl(DimensionedDataSource<Float64Member> ds) {
-		doubles.add(ds);
+		if (ds != null)
+			doubles.add(ds);
 	}
 
 	public void mergeCFlt(DimensionedDataSource<ComplexFloat32Member> ds) {
-		cfloats.add(ds);
+		if (ds != null)
+			cfloats.add(ds);
 	}
 	
 	public void mergeCDbl(DimensionedDataSource<ComplexFloat64Member> ds) {
-		cdoubles.add(ds);
+		if (ds != null)
+			cdoubles.add(ds);
 	}
 	
 	public void mergeArgb(DimensionedDataSource<ArgbMember> ds) {
-		argbs.add(ds);
+		if (ds != null)
+			argbs.add(ds);
 	}
 }
