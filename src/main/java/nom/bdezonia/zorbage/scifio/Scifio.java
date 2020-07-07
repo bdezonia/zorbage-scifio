@@ -53,6 +53,7 @@ import nom.bdezonia.zorbage.algebra.Allocatable;
 import nom.bdezonia.zorbage.algorithm.GridIterator;
 import nom.bdezonia.zorbage.data.DimensionedDataSource;
 import nom.bdezonia.zorbage.data.DimensionedStorage;
+import nom.bdezonia.zorbage.misc.DataBundle;
 import nom.bdezonia.zorbage.procedure.Procedure2;
 import nom.bdezonia.zorbage.sampling.IntegerIndex;
 import nom.bdezonia.zorbage.sampling.SamplingIterator;
@@ -126,9 +127,9 @@ public class Scifio {
 			else if (elem instanceof LongType)
 				bundle.mergeInt64( loadLongImage( (SCIFIOImgPlus<LongType>) scifImgPlus) );
 			else if (elem instanceof FloatType)
-				bundle.mergeFlt( loadFloatImage( (SCIFIOImgPlus<FloatType>) scifImgPlus) );
+				bundle.mergeFloat32( loadFloatImage( (SCIFIOImgPlus<FloatType>) scifImgPlus) );
 			else if (elem instanceof DoubleType)
-				bundle.mergeDbl( loadDoubleImage( (SCIFIOImgPlus<DoubleType>) scifImgPlus) );
+				bundle.mergeFloat64( loadDoubleImage( (SCIFIOImgPlus<DoubleType>) scifImgPlus) );
 			else if (elem instanceof Unsigned2BitType)
 				bundle.mergeUInt2( loadUnsigned2BitImage( (SCIFIOImgPlus<Unsigned2BitType>) scifImgPlus) );
 			else if (elem instanceof Unsigned4BitType)
@@ -138,9 +139,9 @@ public class Scifio {
 			else if (elem instanceof Unsigned128BitType)
 				bundle.mergeUInt128( loadUnsigned128BitImage( (SCIFIOImgPlus<Unsigned128BitType>) scifImgPlus) );
 			else if (elem instanceof ComplexFloatType)
-				bundle.mergeCFlt( loadComplexFloatImage( (SCIFIOImgPlus<ComplexFloatType>) scifImgPlus) );
+				bundle.mergeComplexFloat32( loadComplexFloatImage( (SCIFIOImgPlus<ComplexFloatType>) scifImgPlus) );
 			else if (elem instanceof ComplexDoubleType)
-				bundle.mergeCDbl( loadComplexDoubleImage( (SCIFIOImgPlus<ComplexDoubleType>) scifImgPlus) );
+				bundle.mergeComplexFloat64( loadComplexDoubleImage( (SCIFIOImgPlus<ComplexDoubleType>) scifImgPlus) );
 			else if (elem instanceof ARGBType)
 				bundle.mergeArgb( loadARGBTypeImage( (SCIFIOImgPlus<ARGBType>) scifImgPlus) );
 			else if (elem instanceof UnsignedVariableBitLengthType) {
