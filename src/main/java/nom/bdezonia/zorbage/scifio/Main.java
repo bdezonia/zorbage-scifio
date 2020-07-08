@@ -45,10 +45,10 @@ public class Main {
 
 		DataBundle bundle = Scifio.loadAllDatasets(filename);
 		
-		System.out.println(bundle.flt32s.size());
-		System.out.println(bundle.flt32s.get(0).numDimensions());
-		System.out.println(bundle.flt32s.get(0).dimension(0));
-		System.out.println(bundle.flt32s.get(0).dimension(1));
+		System.out.println(bundle.flts.size());
+		System.out.println(bundle.flts.get(0).numDimensions());
+		System.out.println(bundle.flts.get(0).dimension(0));
+		System.out.println(bundle.flts.get(0).dimension(1));
 		//System.out.println(bundle.floats.get(0).dimension(2));
 		System.out.println("boogah");
 	}
