@@ -896,7 +896,7 @@ public class Scifio {
 		for (int i = 0; i < dims.length; i++) {
 			dims[i] = sciImgPlus.dimension(i);
 		}
-		return DimensionedStorage.allocate(dims, type);
+		return DimensionedStorage.allocate(type, dims);
 	}
 	
 	private static <U,W>
