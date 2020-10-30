@@ -139,9 +139,9 @@ public class Scifio {
 			else if (elem instanceof Unsigned128BitType)
 				bundle.mergeUInt128( loadUnsigned128BitImage( (SCIFIOImgPlus<Unsigned128BitType>) scifImgPlus) );
 			else if (elem instanceof ComplexFloatType)
-				bundle.mergeComplexFloat32( loadComplexFloatImage( (SCIFIOImgPlus<ComplexFloatType>) scifImgPlus) );
+				bundle.mergeComplexFlt32( loadComplexFloatImage( (SCIFIOImgPlus<ComplexFloatType>) scifImgPlus) );
 			else if (elem instanceof ComplexDoubleType)
-				bundle.mergeComplexFloat64( loadComplexDoubleImage( (SCIFIOImgPlus<ComplexDoubleType>) scifImgPlus) );
+				bundle.mergeComplexFlt64( loadComplexDoubleImage( (SCIFIOImgPlus<ComplexDoubleType>) scifImgPlus) );
 			else if (elem instanceof ARGBType)
 				bundle.mergeArgb( loadARGBTypeImage( (SCIFIOImgPlus<ARGBType>) scifImgPlus) );
 			else if (elem instanceof UnsignedVariableBitLengthType) {
