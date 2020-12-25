@@ -57,6 +57,7 @@ import nom.bdezonia.zorbage.misc.DataBundle;
 import nom.bdezonia.zorbage.procedure.Procedure2;
 import nom.bdezonia.zorbage.sampling.IntegerIndex;
 import nom.bdezonia.zorbage.sampling.SamplingIterator;
+import nom.bdezonia.zorbage.type.color.ArgbMember;
 import nom.bdezonia.zorbage.type.complex.float32.ComplexFloat32Member;
 import nom.bdezonia.zorbage.type.complex.float64.ComplexFloat64Member;
 import nom.bdezonia.zorbage.type.integer.int1.UnsignedInt1Member;
@@ -85,7 +86,6 @@ import nom.bdezonia.zorbage.type.integer.int9.UnsignedInt9Member;
 import nom.bdezonia.zorbage.type.integer.unbounded.UnboundedIntMember;
 import nom.bdezonia.zorbage.type.real.float32.Float32Member;
 import nom.bdezonia.zorbage.type.real.float64.Float64Member;
-import nom.bdezonia.zorbage.type.rgb.ArgbMember;
 
 /**
  * 
