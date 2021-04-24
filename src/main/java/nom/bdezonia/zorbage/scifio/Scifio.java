@@ -23,6 +23,7 @@
  */
 package nom.bdezonia.zorbage.scifio;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import io.scif.img.ImgOpener;
@@ -48,6 +49,7 @@ import net.imglib2.type.numeric.real.DoubleType;
 import net.imglib2.type.numeric.real.FloatType;
 import nom.bdezonia.zorbage.algebra.Allocatable;
 import nom.bdezonia.zorbage.algorithm.GridIterator;
+import nom.bdezonia.zorbage.axis.LinearNdCoordinateSpace;
 import nom.bdezonia.zorbage.data.DimensionedDataSource;
 import nom.bdezonia.zorbage.data.DimensionedStorage;
 import nom.bdezonia.zorbage.misc.DataBundle;
@@ -931,12 +933,17 @@ public class Scifio {
 
 	private static void updateMetadata(SCIFIOImgPlus<?> input, DimensionedDataSource<?> output)
 	{
+		BigDecimal[] scales = new BigDecimal[input.numDimensions()];
+		BigDecimal[] offsets = new BigDecimal[input.numDimensions()];
 		output.setName(input.getName());
 		output.setSource(input.getSource());
 		for (int i = 0; i < input.numDimensions(); i++) {
 			output.setAxisType(i, input.axis(i).type().toString());
 			output.setAxisUnit(i, input.axis(i).unit());
+			scales[i] = BigDecimal.valueOf(input.axis(i).averageScale(0, 1000));
+			offsets[i] = BigDecimal.valueOf(input.axis(i).calibratedValue(0));
 		}
+		output.setCoordinateSpace(new LinearNdCoordinateSpace(scales, offsets));
 		output.metadata().put("input-dataset-name", input.getMetadata().getDatasetName());
 		output.metadata().put("input-dataset-size", Long.valueOf(input.getMetadata().getDatasetSize()).toString());
 		// surprisingly this one might hangs or just takes a long time with ImageJ's lena-std
