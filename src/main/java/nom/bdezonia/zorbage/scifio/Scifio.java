@@ -940,7 +940,10 @@ public class Scifio {
 		for (int i = 0; i < input.numDimensions(); i++) {
 			output.setAxisType(i, input.axis(i).type().toString());
 			output.setAxisUnit(i, input.axis(i).unit());
-			scales[i] = BigDecimal.valueOf(input.axis(i).averageScale(0, 1000));
+			if (input.dimension(i) < 2)
+				scales[i] = BigDecimal.ONE;
+			else
+				scales[i] = BigDecimal.valueOf(input.axis(i).averageScale(0, input.dimension(i)-1));
 			offsets[i] = BigDecimal.valueOf(input.axis(i).calibratedValue(0));
 		}
 		output.setCoordinateSpace(new LinearNdCoordinateSpace(scales, offsets));
