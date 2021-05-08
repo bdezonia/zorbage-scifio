@@ -905,15 +905,7 @@ public class Scifio {
 		
 		IntegerIndex index = new IntegerIndex(numD);
 		
-		long[] minPt = new long[numD];
-		
-		long[] maxPt = new long[numD];
-		
-		for (int i = 0; i < numD; i++) {
-			maxPt[i] = output.dimension(i) - 1;
-		}
-		
-		SamplingIterator<IntegerIndex> iter = GridIterator.compute(minPt, maxPt);
+		SamplingIterator<IntegerIndex> iter = GridIterator.compute(output);
 		
 		RandomAccess<U> r = input.randomAccess();
 		
@@ -949,7 +941,7 @@ public class Scifio {
 		output.setCoordinateSpace(new LinearNdCoordinateSpace(scales, offsets));
 		output.metadata().put("input-dataset-name", input.getMetadata().getDatasetName());
 		output.metadata().put("input-dataset-size", Long.valueOf(input.getMetadata().getDatasetSize()).toString());
-		// surprisingly this one might hangs or just takes a long time with ImageJ's lena-std
+		// surprisingly this one might hang or just takes a long time with ImageJ's lena-std
 		// image. maybe a scifio bug? I reported it as one.
 		//output.metadata().put("input-destination-location", input.getMetadata().getDestinationLocation().toString());
 		output.metadata().put("input-format-name", input.getMetadata().getFormatName());
