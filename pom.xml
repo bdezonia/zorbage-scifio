@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.bdezonia</groupId>
   <artifactId>zorbage-scifio</artifactId>
-  <version>0.1.2</version>
+  <version>0.1.3-SNAPSHOT</version>
   <name>zorbage-scifio</name>
   <description>zorbage-scifio: code for using the SCIFIO data file loading library to populate data into zorbage structures for further processing</description>
   <url>https://github.com/bdezonia/zorbage-scifio</url>
@@ -10,7 +10,7 @@
 
   <licenses>
     <license>
-      <name>MIT clause</name>
+      <name>MIT</name>
       <distribution>repo</distribution>
     </license>
   </licenses>
