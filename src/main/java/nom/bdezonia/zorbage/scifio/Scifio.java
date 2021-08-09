@@ -939,15 +939,15 @@ public class Scifio {
 			offsets[i] = BigDecimal.valueOf(input.axis(i).calibratedValue(0));
 		}
 		output.setCoordinateSpace(new LinearNdCoordinateSpace(scales, offsets));
-		output.metadata().put("input-dataset-name", input.getMetadata().getDatasetName());
-		output.metadata().put("input-dataset-size", Long.valueOf(input.getMetadata().getDatasetSize()).toString());
+		output.metadata().putString("input-dataset-name", input.getMetadata().getDatasetName());
+		output.metadata().putLong("input-dataset-size", input.getMetadata().getDatasetSize());
 		// surprisingly this one might hang or just takes a long time with ImageJ's lena-std
 		// image. maybe a scifio bug? I reported it as one.
 		//output.metadata().put("input-destination-location", input.getMetadata().getDestinationLocation().toString());
-		output.metadata().put("input-format-name", input.getMetadata().getFormatName());
-		output.metadata().put("input-identifier", input.getMetadata().getIdentifier());
-		output.metadata().put("input-location", input.getMetadata().getLocation());
-		output.metadata().put("input-source-location", input.getMetadata().getSourceLocation().toString());
-		output.metadata().put("input-version", input.getMetadata().getVersion());
+		output.metadata().putString("input-format-name", input.getMetadata().getFormatName());
+		output.metadata().putString("input-identifier", input.getMetadata().getIdentifier());
+		output.metadata().putString("input-location", input.getMetadata().getLocation());
+		output.metadata().putString("input-source-location", input.getMetadata().getSourceLocation().toString());
+		output.metadata().putString("input-version", input.getMetadata().getVersion());
 	}
 }
