@@ -52,6 +52,7 @@ import nom.bdezonia.zorbage.algorithm.GridIterator;
 import nom.bdezonia.zorbage.coordinates.LinearNdCoordinateSpace;
 import nom.bdezonia.zorbage.data.DimensionedDataSource;
 import nom.bdezonia.zorbage.data.DimensionedStorage;
+import nom.bdezonia.zorbage.dataview.PlaneView;
 import nom.bdezonia.zorbage.misc.DataBundle;
 import nom.bdezonia.zorbage.procedure.Procedure2;
 import nom.bdezonia.zorbage.sampling.IntegerIndex;
@@ -901,25 +902,47 @@ public class Scifio {
 	private static <U,W>
 		void fillDataset(SCIFIOImgPlus<U> input, Procedure2<U,W> converter, W outValue, DimensionedDataSource<W> output)
 	{
-		int numD = output.numDimensions();
+		PlaneView<W> planes = new PlaneView<>(output, 0, 1);
 		
-		IntegerIndex index = new IntegerIndex(numD);
+		int numPlaneDims = output.numDimensions() - 2;
+
+		long[] planeDims = new long[numPlaneDims];
 		
-		SamplingIterator<IntegerIndex> iter = GridIterator.compute(output);
+		for (int i = 0; i < numPlaneDims; i++) {
+			planeDims[i] = output.dimension(i+2);
+		}
 		
 		RandomAccess<U> r = input.randomAccess();
 		
-		long[] pnt = new long[numD];
+		IntegerIndex planeIndex = new IntegerIndex(numPlaneDims);
 		
-		while (iter.hasNext()) {
-			iter.next(index);
-			for (int i = 0; i < numD; i++) {
-				pnt[i] = index.get(i);
+		SamplingIterator<IntegerIndex> planeIter = GridIterator.compute(planeDims);
+
+		// iterate through planes
+		
+		while (planeIter.hasNext()) {
+			
+			// find next plane
+			planeIter.next(planeIndex);
+
+			// move the imglib index and our planes index to match this plane
+			
+			for (int i = 0; i < numPlaneDims; i++) {
+				r.setPosition(planeIndex.get(i), i+2);
+				planes.setPositionValue(i, planeIndex.get(i));
 			}
-			r.setPosition(pnt);
-			U inValue = r.get();
-			converter.call(inValue, outValue);
-			output.set(index, outValue);
+			
+			// iterate within the plane and copy values
+			
+			for (long y = 0; y < planes.d1(); y++) {
+				r.setPosition(y, 1);
+				for (long x = 0; x < planes.d0(); x++) {
+					r.setPosition(x, 0);
+					U inValue = r.get();
+					converter.call(inValue, outValue);
+					planes.set(x, y, outValue);
+				}				
+			}
 		}
 	}
 
