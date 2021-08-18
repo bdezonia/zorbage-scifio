@@ -916,22 +916,8 @@ public class Scifio {
 		
 		IntegerIndex planeIndex = new IntegerIndex(numPlaneDims);
 		
-		SamplingIterator<IntegerIndex> planeIter = GridIterator.compute(planeDims);
+		if (numPlaneDims == 0) {
 
-		// iterate through planes
-		
-		while (planeIter.hasNext()) {
-			
-			// find next plane
-			planeIter.next(planeIndex);
-
-			// move the imglib index and our planes index to match this plane
-			
-			for (int i = 0; i < numPlaneDims; i++) {
-				r.setPosition(planeIndex.get(i), i+2);
-				planes.setPositionValue(i, planeIndex.get(i));
-			}
-			
 			// iterate within the plane and copy values
 			
 			for (long y = 0; y < planes.d1(); y++) {
@@ -942,6 +928,36 @@ public class Scifio {
 					converter.call(inValue, outValue);
 					planes.set(x, y, outValue);
 				}				
+			}
+		}
+		else {
+			SamplingIterator<IntegerIndex> planeIter = GridIterator.compute(planeDims);
+	
+			// iterate through planes
+			
+			while (planeIter.hasNext()) {
+				
+				// find next plane
+				planeIter.next(planeIndex);
+	
+				// move the imglib index and our planes index to match this plane
+				
+				for (int i = 0; i < numPlaneDims; i++) {
+					r.setPosition(planeIndex.get(i), i+2);
+					planes.setPositionValue(i, planeIndex.get(i));
+				}
+				
+				// iterate within the plane and copy values
+				
+				for (long y = 0; y < planes.d1(); y++) {
+					r.setPosition(y, 1);
+					for (long x = 0; x < planes.d0(); x++) {
+						r.setPosition(x, 0);
+						U inValue = r.get();
+						converter.call(inValue, outValue);
+						planes.set(x, y, outValue);
+					}				
+				}
 			}
 		}
 	}
