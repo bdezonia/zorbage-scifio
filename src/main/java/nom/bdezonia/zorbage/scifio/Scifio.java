@@ -24,6 +24,7 @@
 package nom.bdezonia.zorbage.scifio;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 
 import io.scif.img.ImgOpener;
@@ -300,6 +301,7 @@ public class Scifio {
 	}
 	
 	private static DimensionedDataSource<UnsignedInt8Member>
+	
 		loadUnsignedByteImage(SCIFIOImgPlus<UnsignedByteType> input)
 	{
 		Procedure2<UnsignedByteType, UnsignedInt8Member> proc =
@@ -307,6 +309,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedByteType in, UnsignedInt8Member out) {
+	
 				out.setV(in.get());
 			}
 		};
@@ -322,6 +325,7 @@ public class Scifio {
 	}
 	
 	private static DimensionedDataSource<SignedInt8Member>
+	
 		loadByteImage(SCIFIOImgPlus<ByteType> input)
 	{
 		Procedure2<ByteType, SignedInt8Member> proc =
@@ -329,6 +333,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(ByteType in, SignedInt8Member out) {
+		
 				out.setV(in.get());
 			}
 		};
@@ -344,6 +349,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt16Member>
+	
 		loadUnsignedShortImage(SCIFIOImgPlus<UnsignedShortType> input)
 	{
 		Procedure2<UnsignedShortType, UnsignedInt16Member> proc =
@@ -351,6 +357,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedShortType in, UnsignedInt16Member out) {
+	
 				out.setV(in.get());
 			}
 		};
@@ -366,6 +373,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<SignedInt16Member>
+	
 		loadShortImage(SCIFIOImgPlus<ShortType> input)
 	{
 		Procedure2<ShortType, SignedInt16Member> proc =
@@ -373,6 +381,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(ShortType in, SignedInt16Member out) {
+	
 				out.setV(in.get());
 			}
 		};
@@ -388,6 +397,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt32Member>
+	
 		loadUnsignedIntImage(SCIFIOImgPlus<UnsignedIntType> input)
 	{
 		Procedure2<UnsignedIntType, UnsignedInt32Member> proc =
@@ -395,6 +405,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedIntType in, UnsignedInt32Member out) {
+	
 				out.setV(in.get());
 			}
 		};
@@ -410,6 +421,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<SignedInt32Member>
+	
 		loadIntImage(SCIFIOImgPlus<IntType> input)
 	{
 		Procedure2<IntType, SignedInt32Member> proc =
@@ -417,6 +429,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(IntType in, SignedInt32Member out) {
+	
 				out.setV(in.get());
 			}
 		};
@@ -432,6 +445,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt64Member>
+	
 		loadUnsignedLongImage(SCIFIOImgPlus<UnsignedLongType> input)
 	{
 		Procedure2<UnsignedLongType, UnsignedInt64Member> proc =
@@ -439,6 +453,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedLongType in, UnsignedInt64Member out) {
+	
 				out.setV(in.getBigInteger());
 			}
 		};
@@ -454,6 +469,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<SignedInt64Member>
+	
 		loadLongImage(SCIFIOImgPlus<LongType> input)
 	{
 		Procedure2<LongType, SignedInt64Member> proc =
@@ -461,6 +477,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(LongType in, SignedInt64Member out) {
+	
 				out.setV(in.get());
 			}
 		};
@@ -476,6 +493,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<Float32Member>
+	
 		loadFloatImage(SCIFIOImgPlus<FloatType> input)
 	{
 		Procedure2<FloatType, Float32Member> proc =
@@ -483,6 +501,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(FloatType in, Float32Member out) {
+	
 				out.setV(in.get());
 			}
 		};
@@ -498,6 +517,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<Float64Member>
+	
 		loadDoubleImage(SCIFIOImgPlus<DoubleType> input)
 	{
 		Procedure2<DoubleType, Float64Member> proc =
@@ -505,6 +525,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(DoubleType in, Float64Member out) {
+	
 				out.setV(in.get());
 			}
 		};
@@ -520,6 +541,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<ComplexFloat32Member>
+	
 		loadComplexFloatImage(SCIFIOImgPlus<ComplexFloatType> input)
 	{
 		Procedure2<ComplexFloatType, ComplexFloat32Member> proc =
@@ -527,7 +549,9 @@ public class Scifio {
 		{
 			@Override
 			public void call(ComplexFloatType in, ComplexFloat32Member out) {
+	
 				out.setR(in.getRealFloat());
+				
 				out.setI(in.getImaginaryFloat());
 			}
 		};
@@ -543,6 +567,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<ComplexFloat64Member>
+	
 		loadComplexDoubleImage(SCIFIOImgPlus<ComplexDoubleType> input)
 	{
 		Procedure2<ComplexDoubleType, ComplexFloat64Member> proc =
@@ -550,7 +575,9 @@ public class Scifio {
 		{
 			@Override
 			public void call(ComplexDoubleType in, ComplexFloat64Member out) {
+	
 				out.setR(in.getRealDouble());
+				
 				out.setI(in.getImaginaryDouble());
 			}
 		};
@@ -566,6 +593,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt2Member>
+	
 		loadUnsigned2BitImage(SCIFIOImgPlus<Unsigned2BitType> input)
 	{
 		Procedure2<Unsigned2BitType, UnsignedInt2Member> proc =
@@ -573,6 +601,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(Unsigned2BitType in, UnsignedInt2Member out) {
+	
 				out.setV(in.getInteger());
 			}
 		};
@@ -588,6 +617,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt4Member>
+	
 		loadUnsigned4BitImage(SCIFIOImgPlus<Unsigned4BitType> input)
 	{
 		Procedure2<Unsigned4BitType, UnsignedInt4Member> proc =
@@ -595,6 +625,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(Unsigned4BitType in, UnsignedInt4Member out) {
+	
 				out.setV(in.getInteger());
 			}
 		};
@@ -610,6 +641,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt12Member>
+	
 		loadUnsigned12BitImage(SCIFIOImgPlus<Unsigned12BitType> input)
 	{
 		Procedure2<Unsigned12BitType, UnsignedInt12Member> proc =
@@ -617,6 +649,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(Unsigned12BitType in, UnsignedInt12Member out) {
+	
 				out.setV(in.getInteger());
 			}
 		};
@@ -632,6 +665,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt128Member>
+	
 		loadUnsigned128BitImage(SCIFIOImgPlus<Unsigned128BitType> input)
 	{
 		Procedure2<Unsigned128BitType, UnsignedInt128Member> proc =
@@ -639,6 +673,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(Unsigned128BitType in, UnsignedInt128Member out) {
+	
 				out.setV(in.get());
 			}
 		};
@@ -654,6 +689,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt1Member>
+	
 		loadUnsignedV1BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
 	{
 		Procedure2<UnsignedVariableBitLengthType, UnsignedInt1Member> proc =
@@ -661,6 +697,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedVariableBitLengthType in, UnsignedInt1Member out) {
+	
 				out.setV(in.getInteger());
 			}
 		};
@@ -676,6 +713,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt2Member>
+	
 		loadUnsignedV2BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
 	{
 		Procedure2<UnsignedVariableBitLengthType, UnsignedInt2Member> proc =
@@ -683,6 +721,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedVariableBitLengthType in, UnsignedInt2Member out) {
+	
 				out.setV(in.getInteger());
 			}
 		};
@@ -698,6 +737,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt3Member>
+	
 		loadUnsignedV3BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
 	{
 		Procedure2<UnsignedVariableBitLengthType, UnsignedInt3Member> proc =
@@ -705,6 +745,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedVariableBitLengthType in, UnsignedInt3Member out) {
+	
 				out.setV(in.getInteger());
 			}
 		};
@@ -720,6 +761,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt4Member>
+	
 		loadUnsignedV4BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
 	{
 		Procedure2<UnsignedVariableBitLengthType, UnsignedInt4Member> proc =
@@ -727,6 +769,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedVariableBitLengthType in, UnsignedInt4Member out) {
+	
 				out.setV(in.getInteger());
 			}
 		};
@@ -742,6 +785,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt5Member>
+	
 		loadUnsignedV5BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
 	{
 		Procedure2<UnsignedVariableBitLengthType, UnsignedInt5Member> proc =
@@ -749,6 +793,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedVariableBitLengthType in, UnsignedInt5Member out) {
+	
 				out.setV(in.getInteger());
 			}
 		};
@@ -764,6 +809,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt6Member>
+	
 		loadUnsignedV6BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
 	{
 		Procedure2<UnsignedVariableBitLengthType, UnsignedInt6Member> proc =
@@ -771,6 +817,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedVariableBitLengthType in, UnsignedInt6Member out) {
+	
 				out.setV(in.getInteger());
 			}
 		};
@@ -786,6 +833,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt7Member>
+	
 		loadUnsignedV7BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
 	{
 		Procedure2<UnsignedVariableBitLengthType, UnsignedInt7Member> proc =
@@ -793,6 +841,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedVariableBitLengthType in, UnsignedInt7Member out) {
+	
 				out.setV(in.getInteger());
 			}
 		};
@@ -808,6 +857,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt8Member>
+	
 		loadUnsignedV8BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
 	{
 		Procedure2<UnsignedVariableBitLengthType, UnsignedInt8Member> proc =
@@ -815,6 +865,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedVariableBitLengthType in, UnsignedInt8Member out) {
+	
 				out.setV(in.getInteger());
 			}
 		};
@@ -830,6 +881,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt9Member>
+	
 		loadUnsignedV9BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
 	{
 		Procedure2<UnsignedVariableBitLengthType, UnsignedInt9Member> proc =
@@ -837,6 +889,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedVariableBitLengthType in, UnsignedInt9Member out) {
+	
 				out.setV(in.getInteger());
 			}
 		};
@@ -852,6 +905,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt10Member>
+	
 		loadUnsignedV10BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
 	{
 		Procedure2<UnsignedVariableBitLengthType, UnsignedInt10Member> proc =
@@ -859,6 +913,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedVariableBitLengthType in, UnsignedInt10Member out) {
+	
 				out.setV(in.getInteger());
 			}
 		};
@@ -874,6 +929,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt11Member>
+	
 		loadUnsignedV11BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
 	{
 		Procedure2<UnsignedVariableBitLengthType, UnsignedInt11Member> proc =
@@ -881,6 +937,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedVariableBitLengthType in, UnsignedInt11Member out) {
+	
 				out.setV(in.getInteger());
 			}
 		};
@@ -896,6 +953,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt12Member>
+	
 		loadUnsignedV12BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
 	{
 		Procedure2<UnsignedVariableBitLengthType, UnsignedInt12Member> proc =
@@ -903,6 +961,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedVariableBitLengthType in, UnsignedInt12Member out) {
+	
 				out.setV(in.getInteger());
 			}
 		};
@@ -918,6 +977,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt13Member>
+	
 		loadUnsignedV13BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
 	{
 		Procedure2<UnsignedVariableBitLengthType, UnsignedInt13Member> proc =
@@ -925,6 +985,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedVariableBitLengthType in, UnsignedInt13Member out) {
+	
 				out.setV(in.getInteger());
 			}
 		};
@@ -940,6 +1001,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt14Member>
+	
 		loadUnsignedV14BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
 	{
 		Procedure2<UnsignedVariableBitLengthType, UnsignedInt14Member> proc =
@@ -947,6 +1009,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedVariableBitLengthType in, UnsignedInt14Member out) {
+	
 				out.setV(in.getInteger());
 			}
 		};
@@ -962,6 +1025,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt15Member>
+	
 		loadUnsignedV15BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
 	{
 		Procedure2<UnsignedVariableBitLengthType, UnsignedInt15Member> proc =
@@ -969,6 +1033,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedVariableBitLengthType in, UnsignedInt15Member out) {
+	
 				out.setV(in.getInteger());
 			}
 		};
@@ -984,6 +1049,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt16Member>
+	
 		loadUnsignedV16BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
 	{
 		Procedure2<UnsignedVariableBitLengthType, UnsignedInt16Member> proc =
@@ -991,6 +1057,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedVariableBitLengthType in, UnsignedInt16Member out) {
+	
 				out.setV(in.getInteger());
 			}
 		};
@@ -1006,6 +1073,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt32Member>
+	
 		loadUnsignedV32BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
 	{
 		Procedure2<UnsignedVariableBitLengthType, UnsignedInt32Member> proc =
@@ -1013,6 +1081,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedVariableBitLengthType in, UnsignedInt32Member out) {
+	
 				out.setV(in.get());
 			}
 		};
@@ -1028,6 +1097,7 @@ public class Scifio {
 	}
 
 	private static DimensionedDataSource<UnsignedInt64Member>
+	
 		loadUnsignedV64BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
 	{
 		Procedure2<UnsignedVariableBitLengthType, UnsignedInt64Member> proc =
@@ -1035,6 +1105,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedVariableBitLengthType in, UnsignedInt64Member out) {
+	
 				out.setV(in.getBigInteger());
 			}
 		};
@@ -1050,6 +1121,7 @@ public class Scifio {
 	}
 	
 	private static DimensionedDataSource<UnsignedInt128Member>
+	
 		loadUnsignedV128BitImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
 	{
 		Procedure2<UnsignedVariableBitLengthType, UnsignedInt128Member> proc =
@@ -1057,6 +1129,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedVariableBitLengthType in, UnsignedInt128Member out) {
+	
 				out.setV(in.getBigInteger());
 			}
 		};
@@ -1072,6 +1145,7 @@ public class Scifio {
 	}
 	
 	private static DimensionedDataSource<UnboundedIntMember>
+	
 		loadUnsignedBigIntImage(SCIFIOImgPlus<UnsignedVariableBitLengthType> input)
 	{
 		Procedure2<UnsignedVariableBitLengthType, UnboundedIntMember> proc =
@@ -1079,6 +1153,7 @@ public class Scifio {
 		{
 			@Override
 			public void call(UnsignedVariableBitLengthType in, UnboundedIntMember out) {
+	
 				out.setV(in.getBigInteger());
 			}
 		};
@@ -1094,6 +1169,7 @@ public class Scifio {
 	}
 	
 	private static DimensionedDataSource<ArgbMember>
+	
 		loadARGBTypeImage(SCIFIOImgPlus<ARGBType> input)
 	{
 		Procedure2<ARGBType, ArgbMember> proc =
@@ -1101,10 +1177,15 @@ public class Scifio {
 		{
 			@Override
 			public void call(ARGBType in, ArgbMember out) {
+	
 				int value = in.get();
+				
 				out.setA(ARGBType.alpha(value));
+				
 				out.setR(ARGBType.red(value));
+				
 				out.setG(ARGBType.green(value));
+				
 				out.setB(ARGBType.blue(value));
 			}
 		};
@@ -1120,16 +1201,21 @@ public class Scifio {
 	}
 
 	private static <U extends Allocatable<U>> DimensionedDataSource<U>
+	
 		makeDataset(SCIFIOImgPlus<?> sciImgPlus, U type)
 	{
 		long[] dims = new long[sciImgPlus.numDimensions()];
+
 		for (int i = 0; i < dims.length; i++) {
+		
 			dims[i] = sciImgPlus.dimension(i);
 		}
+
 		return DimensionedStorage.allocate(type, dims);
 	}
 	
 	private static <U,W>
+	
 		void fillDataset(SCIFIOImgPlus<U> input, Procedure2<U,W> converter, W outValue, DimensionedDataSource<W> output)
 	{
 		PlaneView<W> planes = new PlaneView<>(output, 0, 1);
@@ -1207,7 +1293,9 @@ public class Scifio {
 		}
 	}
 
-	private static void updateMetadata(SCIFIOImgPlus<?> input, DimensionedDataSource<?> output)
+	private static
+	
+		void updateMetadata(SCIFIOImgPlus<?> input, DimensionedDataSource<?> output)
 	{
 		BigDecimal[] scales = new BigDecimal[input.numDimensions()];
 		
