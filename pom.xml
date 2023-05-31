@@ -75,7 +75,7 @@
     <dependency>
       <groupId>io.scif</groupId>
       <artifactId>scifio</artifactId>
-      <version>0.43.3</version>
+      <version>0.45.0</version>
     </dependency>
 
   </dependencies>
