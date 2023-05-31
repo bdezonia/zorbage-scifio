@@ -109,104 +109,186 @@ public class Scifio {
 		List<SCIFIOImgPlus<?>> results = opener.openImgs(filename);
 
 		for (SCIFIOImgPlus<?> scifImgPlus : results) {
+			
 			Object elem = scifImgPlus.firstElement();
-			if (elem instanceof UnsignedByteType)
+			
+			if (elem instanceof UnsignedByteType) {
+				
 				bundle.mergeUInt8( loadUnsignedByteImage( (SCIFIOImgPlus<UnsignedByteType>) scifImgPlus) );
-			else if (elem instanceof ByteType)
+			}
+			else if (elem instanceof ByteType) {
+				
 				bundle.mergeInt8( loadByteImage( (SCIFIOImgPlus<ByteType>) scifImgPlus) );
-			else if (elem instanceof UnsignedShortType)
+			}
+			else if (elem instanceof UnsignedShortType) {
+				
 				bundle.mergeUInt16( loadUnsignedShortImage( (SCIFIOImgPlus<UnsignedShortType>) scifImgPlus) );
-			else if (elem instanceof ShortType)
+			}
+			else if (elem instanceof ShortType) {
+				
 				bundle.mergeInt16( loadShortImage( (SCIFIOImgPlus<ShortType>) scifImgPlus) );
-			else if (elem instanceof UnsignedIntType)
+			}
+			else if (elem instanceof UnsignedIntType) {
+				
 				bundle.mergeUInt32( loadUnsignedIntImage( (SCIFIOImgPlus<UnsignedIntType>) scifImgPlus) );
-			else if (elem instanceof IntType)
+			}
+			else if (elem instanceof IntType) {
+				
 				bundle.mergeInt32( loadIntImage( (SCIFIOImgPlus<IntType>) scifImgPlus) );
-			else if (elem instanceof UnsignedLongType)
+			}
+			else if (elem instanceof UnsignedLongType) {
+				
 				bundle.mergeUInt64( loadUnsignedLongImage( (SCIFIOImgPlus<UnsignedLongType>) scifImgPlus) );
-			else if (elem instanceof LongType)
+			}
+			else if (elem instanceof LongType) {
+				
 				bundle.mergeInt64( loadLongImage( (SCIFIOImgPlus<LongType>) scifImgPlus) );
-			else if (elem instanceof FloatType)
+			}
+			else if (elem instanceof FloatType) {
+				
 				bundle.mergeFlt32( loadFloatImage( (SCIFIOImgPlus<FloatType>) scifImgPlus) );
-			else if (elem instanceof DoubleType)
+			}
+			else if (elem instanceof DoubleType) {
+				
 				bundle.mergeFlt64( loadDoubleImage( (SCIFIOImgPlus<DoubleType>) scifImgPlus) );
-			else if (elem instanceof Unsigned2BitType)
+			}
+			else if (elem instanceof Unsigned2BitType) {
+				
 				bundle.mergeUInt2( loadUnsigned2BitImage( (SCIFIOImgPlus<Unsigned2BitType>) scifImgPlus) );
-			else if (elem instanceof Unsigned4BitType)
+			}
+			else if (elem instanceof Unsigned4BitType) {
+				
 				bundle.mergeUInt4( loadUnsigned4BitImage( (SCIFIOImgPlus<Unsigned4BitType>) scifImgPlus) );
-			else if (elem instanceof Unsigned12BitType)
+			}
+			else if (elem instanceof Unsigned12BitType) {
+				
 				bundle.mergeUInt12( loadUnsigned12BitImage( (SCIFIOImgPlus<Unsigned12BitType>) scifImgPlus) );
-			else if (elem instanceof Unsigned128BitType)
+			}
+			else if (elem instanceof Unsigned128BitType) {
+				
 				bundle.mergeUInt128( loadUnsigned128BitImage( (SCIFIOImgPlus<Unsigned128BitType>) scifImgPlus) );
-			else if (elem instanceof ComplexFloatType)
+			}
+			else if (elem instanceof ComplexFloatType) {
+				
 				bundle.mergeComplexFlt32( loadComplexFloatImage( (SCIFIOImgPlus<ComplexFloatType>) scifImgPlus) );
-			else if (elem instanceof ComplexDoubleType)
+			}
+			else if (elem instanceof ComplexDoubleType) {
+				
 				bundle.mergeComplexFlt64( loadComplexDoubleImage( (SCIFIOImgPlus<ComplexDoubleType>) scifImgPlus) );
-			else if (elem instanceof ARGBType)
+			}
+			else if (elem instanceof ARGBType) {
+				
 				bundle.mergeArgb( loadARGBTypeImage( (SCIFIOImgPlus<ARGBType>) scifImgPlus) );
+			}
 			else if (elem instanceof UnsignedVariableBitLengthType) {
+				
 				UnsignedVariableBitLengthType type = (UnsignedVariableBitLengthType) elem;
+				
 				int bpp = type.getBitsPerPixel();
+				
 				if (bpp < 1)
 					throw new IllegalArgumentException("bit per pix must be > 0");
+				
 				switch (bpp) {
+				
 				case 1:
+					
 					bundle.mergeUInt1( loadUnsignedV1BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
 					break;
+					
 				case 2:
+					
 					bundle.mergeUInt2( loadUnsignedV2BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
 					break;
+					
 				case 3:
+					
 					bundle.mergeUInt3( loadUnsignedV3BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
 					break;
+					
 				case 4:
+					
 					bundle.mergeUInt4( loadUnsignedV4BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
 					break;
+					
 				case 5:
+					
 					bundle.mergeUInt5( loadUnsignedV5BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
 					break;
+					
 				case 6:
+					
 					bundle.mergeUInt6( loadUnsignedV6BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
 					break;
+					
 				case 7:
+					
 					bundle.mergeUInt7( loadUnsignedV7BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
 					break;
+					
 				case 8:
+					
 					bundle.mergeUInt8( loadUnsignedV8BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
 					break;
+					
 				case 9:
+					
 					bundle.mergeUInt9( loadUnsignedV9BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
 					break;
+					
 				case 10:
+					
 					bundle.mergeUInt10( loadUnsignedV10BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
 					break;
+					
 				case 11:
+					
 					bundle.mergeUInt11( loadUnsignedV11BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
 					break;
+					
 				case 12:
+					
 					bundle.mergeUInt12( loadUnsignedV12BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
 					break;
+					
 				case 13:
+					
 					bundle.mergeUInt13( loadUnsignedV13BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
 					break;
+					
 				case 14:
+					
 					bundle.mergeUInt14( loadUnsignedV14BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
 					break;
+					
 				case 15:
+					
 					bundle.mergeUInt15( loadUnsignedV15BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
 					break;
+					
 				case 16:
+
 					bundle.mergeUInt16( loadUnsignedV16BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
 					break;
+					
 				default:
-					if (bpp <= 32)
+					
+					if (bpp <= 32) {
+						
 						bundle.mergeUInt32( loadUnsignedV32BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					else if (bpp <= 64)
+					}
+					else if (bpp <= 64) {
+						
 						bundle.mergeUInt64( loadUnsignedV64BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					else if (bpp <= 128)
+					}
+					else if (bpp <= 128) {
+						
 						bundle.mergeUInt128( loadUnsignedV128BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					else // bpp > 128
+					}
+					else { // bpp > 128
+						
 						bundle.mergeBigInt( loadUnsignedBigIntImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
+					}
 					break;
 				}
 			}
@@ -228,10 +310,14 @@ public class Scifio {
 				out.setV(in.get());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt8Member> output =
 				makeDataset(input, new UnsignedInt8Member());
+		
 		fillDataset(input, proc, new UnsignedInt8Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 	
@@ -246,10 +332,14 @@ public class Scifio {
 				out.setV(in.get());
 			}
 		};
+		
 		DimensionedDataSource<SignedInt8Member> output =
 				makeDataset(input, new SignedInt8Member());
+		
 		fillDataset(input, proc, new SignedInt8Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -264,10 +354,14 @@ public class Scifio {
 				out.setV(in.get());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt16Member> output =
 				makeDataset(input, new UnsignedInt16Member());
+		
 		fillDataset(input, proc, new UnsignedInt16Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -282,10 +376,14 @@ public class Scifio {
 				out.setV(in.get());
 			}
 		};
+		
 		DimensionedDataSource<SignedInt16Member> output =
 				makeDataset(input, new SignedInt16Member());
+		
 		fillDataset(input, proc, new SignedInt16Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -300,10 +398,14 @@ public class Scifio {
 				out.setV(in.get());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt32Member> output =
 				makeDataset(input, new UnsignedInt32Member());
+		
 		fillDataset(input, proc, new UnsignedInt32Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -318,10 +420,14 @@ public class Scifio {
 				out.setV(in.get());
 			}
 		};
+		
 		DimensionedDataSource<SignedInt32Member> output =
 				makeDataset(input, new SignedInt32Member());
+		
 		fillDataset(input, proc, new SignedInt32Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -336,10 +442,14 @@ public class Scifio {
 				out.setV(in.getBigInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt64Member> output =
 				makeDataset(input, new UnsignedInt64Member());
+		
 		fillDataset(input, proc, new UnsignedInt64Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -354,10 +464,14 @@ public class Scifio {
 				out.setV(in.get());
 			}
 		};
+		
 		DimensionedDataSource<SignedInt64Member> output =
 				makeDataset(input, new SignedInt64Member());
+		
 		fillDataset(input, proc, new SignedInt64Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -372,10 +486,14 @@ public class Scifio {
 				out.setV(in.get());
 			}
 		};
+		
 		DimensionedDataSource<Float32Member> output =
 				makeDataset(input, new Float32Member());
+		
 		fillDataset(input, proc, new Float32Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -390,10 +508,14 @@ public class Scifio {
 				out.setV(in.get());
 			}
 		};
+		
 		DimensionedDataSource<Float64Member> output =
 				makeDataset(input, new Float64Member());
+		
 		fillDataset(input, proc, new Float64Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -409,10 +531,14 @@ public class Scifio {
 				out.setI(in.getImaginaryFloat());
 			}
 		};
+		
 		DimensionedDataSource<ComplexFloat32Member> output =
 				makeDataset(input, new ComplexFloat32Member());
+		
 		fillDataset(input, proc, new ComplexFloat32Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -428,10 +554,14 @@ public class Scifio {
 				out.setI(in.getImaginaryDouble());
 			}
 		};
+		
 		DimensionedDataSource<ComplexFloat64Member> output =
 				makeDataset(input, new ComplexFloat64Member());
+		
 		fillDataset(input, proc, new ComplexFloat64Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -446,10 +576,14 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt2Member> output =
 				makeDataset(input, new UnsignedInt2Member());
+		
 		fillDataset(input, proc, new UnsignedInt2Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -464,10 +598,14 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt4Member> output =
 				makeDataset(input, new UnsignedInt4Member());
+		
 		fillDataset(input, proc, new UnsignedInt4Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -482,10 +620,14 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt12Member> output =
 				makeDataset(input, new UnsignedInt12Member());
+		
 		fillDataset(input, proc, new UnsignedInt12Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -500,10 +642,14 @@ public class Scifio {
 				out.setV(in.get());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt128Member> output =
 				makeDataset(input, new UnsignedInt128Member());
+		
 		fillDataset(input, proc, new UnsignedInt128Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -518,10 +664,14 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt1Member> output =
 				makeDataset(input, new UnsignedInt1Member());
+		
 		fillDataset(input, proc, new UnsignedInt1Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -536,10 +686,14 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt2Member> output =
 				makeDataset(input, new UnsignedInt2Member());
+		
 		fillDataset(input, proc, new UnsignedInt2Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -554,10 +708,14 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt3Member> output =
 				makeDataset(input, new UnsignedInt3Member());
+		
 		fillDataset(input, proc, new UnsignedInt3Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -572,10 +730,14 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt4Member> output =
 				makeDataset(input, new UnsignedInt4Member());
+		
 		fillDataset(input, proc, new UnsignedInt4Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -590,10 +752,14 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt5Member> output =
 				makeDataset(input, new UnsignedInt5Member());
+		
 		fillDataset(input, proc, new UnsignedInt5Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -608,10 +774,14 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt6Member> output =
 				makeDataset(input, new UnsignedInt6Member());
+		
 		fillDataset(input, proc, new UnsignedInt6Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -626,10 +796,14 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt7Member> output =
 				makeDataset(input, new UnsignedInt7Member());
+		
 		fillDataset(input, proc, new UnsignedInt7Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -644,10 +818,14 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt8Member> output =
 				makeDataset(input, new UnsignedInt8Member());
+		
 		fillDataset(input, proc, new UnsignedInt8Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -662,10 +840,14 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt9Member> output =
 				makeDataset(input, new UnsignedInt9Member());
+		
 		fillDataset(input, proc, new UnsignedInt9Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -680,10 +862,14 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt10Member> output =
 				makeDataset(input, new UnsignedInt10Member());
+		
 		fillDataset(input, proc, new UnsignedInt10Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -698,10 +884,14 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt11Member> output =
 				makeDataset(input, new UnsignedInt11Member());
+		
 		fillDataset(input, proc, new UnsignedInt11Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -716,10 +906,14 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt12Member> output =
 				makeDataset(input, new UnsignedInt12Member());
+		
 		fillDataset(input, proc, new UnsignedInt12Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -734,10 +928,14 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt13Member> output =
 				makeDataset(input, new UnsignedInt13Member());
+		
 		fillDataset(input, proc, new UnsignedInt13Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -752,10 +950,14 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt14Member> output =
 				makeDataset(input, new UnsignedInt14Member());
+		
 		fillDataset(input, proc, new UnsignedInt14Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -770,10 +972,14 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt15Member> output =
 				makeDataset(input, new UnsignedInt15Member());
+		
 		fillDataset(input, proc, new UnsignedInt15Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -788,10 +994,14 @@ public class Scifio {
 				out.setV(in.getInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt16Member> output =
 				makeDataset(input, new UnsignedInt16Member());
+		
 		fillDataset(input, proc, new UnsignedInt16Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -806,10 +1016,14 @@ public class Scifio {
 				out.setV(in.get());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt32Member> output =
 				makeDataset(input, new UnsignedInt32Member());
+		
 		fillDataset(input, proc, new UnsignedInt32Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -824,10 +1038,14 @@ public class Scifio {
 				out.setV(in.getBigInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt64Member> output =
 				makeDataset(input, new UnsignedInt64Member());
+		
 		fillDataset(input, proc, new UnsignedInt64Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 	
@@ -842,10 +1060,14 @@ public class Scifio {
 				out.setV(in.getBigInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnsignedInt128Member> output =
 				makeDataset(input, new UnsignedInt128Member());
+		
 		fillDataset(input, proc, new UnsignedInt128Member(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 	
@@ -860,10 +1082,14 @@ public class Scifio {
 				out.setV(in.getBigInteger());
 			}
 		};
+		
 		DimensionedDataSource<UnboundedIntMember> output =
 				makeDataset(input, new UnboundedIntMember());
+		
 		fillDataset(input, proc, new UnboundedIntMember(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 	
@@ -882,10 +1108,14 @@ public class Scifio {
 				out.setB(ARGBType.blue(value));
 			}
 		};
+		
 		DimensionedDataSource<ArgbMember> output =
 				makeDataset(input, new ArgbMember());
+		
 		fillDataset(input, proc, new ArgbMember(), output);
+		
 		updateMetadata(input, output);
+		
 		return output;
 	}
 
@@ -921,16 +1151,23 @@ public class Scifio {
 			// iterate within the plane and copy values
 			
 			for (long y = 0; y < planes.d1(); y++) {
+				
 				r.setPosition(y, 1);
+				
 				for (long x = 0; x < planes.d0(); x++) {
+					
 					r.setPosition(x, 0);
+					
 					U inValue = r.get();
+					
 					converter.call(inValue, outValue);
+					
 					planes.set(x, y, outValue);
 				}				
 			}
 		}
 		else {
+			
 			SamplingIterator<IntegerIndex> planeIter = GridIterator.compute(planeDims);
 	
 			// iterate through planes
@@ -943,18 +1180,26 @@ public class Scifio {
 				// move the imglib index and our planes index to match this plane
 				
 				for (int i = 0; i < numPlaneDims; i++) {
+
 					r.setPosition(planeIndex.get(i), i+2);
+					
 					planes.setPositionValue(i, planeIndex.get(i));
 				}
 				
 				// iterate within the plane and copy values
 				
 				for (long y = 0; y < planes.d1(); y++) {
+					
 					r.setPosition(y, 1);
+					
 					for (long x = 0; x < planes.d0(); x++) {
+					
 						r.setPosition(x, 0);
+						
 						U inValue = r.get();
+						
 						converter.call(inValue, outValue);
+						
 						planes.set(x, y, outValue);
 					}				
 				}
@@ -965,28 +1210,45 @@ public class Scifio {
 	private static void updateMetadata(SCIFIOImgPlus<?> input, DimensionedDataSource<?> output)
 	{
 		BigDecimal[] scales = new BigDecimal[input.numDimensions()];
+		
 		BigDecimal[] offsets = new BigDecimal[input.numDimensions()];
+		
 		output.setName(input.getName());
+		
 		output.setSource(input.getSource());
+		
 		for (int i = 0; i < input.numDimensions(); i++) {
+		
 			output.setAxisType(i, input.axis(i).type().toString());
+			
 			output.setAxisUnit(i, input.axis(i).unit());
+			
 			if (input.dimension(i) < 2)
 				scales[i] = BigDecimal.ONE;
 			else
 				scales[i] = BigDecimal.valueOf(input.axis(i).averageScale(0, input.dimension(i)-1));
+			
 			offsets[i] = BigDecimal.valueOf(input.axis(i).calibratedValue(0));
 		}
+
 		output.setCoordinateSpace(new LinearNdCoordinateSpace(scales, offsets));
+		
 		output.metadata().putString("input-dataset-name", input.getMetadata().getDatasetName());
+		
 		output.metadata().putLong("input-dataset-size", input.getMetadata().getDatasetSize());
+		
 		// surprisingly this one might hang or just takes a long time with ImageJ's lena-std
 		// image. maybe a scifio bug? I reported it as one.
 		//output.metadata().put("input-destination-location", input.getMetadata().getDestinationLocation().toString());
+		
 		output.metadata().putString("input-format-name", input.getMetadata().getFormatName());
+		
 		output.metadata().putString("input-identifier", input.getMetadata().getIdentifier());
+		
 		output.metadata().putString("input-location", input.getMetadata().getLocation());
+		
 		output.metadata().putString("input-source-location", input.getMetadata().getSourceLocation().toString());
+		
 		output.metadata().putString("input-version", input.getMetadata().getVersion());
 	}
 }
