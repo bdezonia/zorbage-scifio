@@ -26,9 +26,15 @@ package nom.bdezonia.zorbage.scifio;
 import java.math.BigDecimal;
 import java.util.List;
 
+import io.scif.config.SCIFIOConfig;
 import io.scif.img.ImgOpener;
+import io.scif.img.ImgSaver;
 import io.scif.img.SCIFIOImgPlus;
+import net.imglib2.Cursor;
 import net.imglib2.RandomAccess;
+import net.imglib2.img.Img;
+import net.imglib2.img.cell.CellImgFactory;
+import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.ARGBType;
 import net.imglib2.type.numeric.complex.ComplexDoubleType;
 import net.imglib2.type.numeric.complex.ComplexFloatType;
@@ -47,13 +53,16 @@ import net.imglib2.type.numeric.integer.UnsignedShortType;
 import net.imglib2.type.numeric.integer.UnsignedVariableBitLengthType;
 import net.imglib2.type.numeric.real.DoubleType;
 import net.imglib2.type.numeric.real.FloatType;
+import nom.bdezonia.zorbage.algebra.Algebra;
 import nom.bdezonia.zorbage.algebra.Allocatable;
+import nom.bdezonia.zorbage.algebra.GetAsBigDecimal;
 import nom.bdezonia.zorbage.algorithm.GridIterator;
 import nom.bdezonia.zorbage.coordinates.LinearNdCoordinateSpace;
 import nom.bdezonia.zorbage.data.DimensionedDataSource;
 import nom.bdezonia.zorbage.data.DimensionedStorage;
 import nom.bdezonia.zorbage.dataview.PlaneView;
 import nom.bdezonia.zorbage.misc.DataBundle;
+import nom.bdezonia.zorbage.misc.DataSourceUtils;
 import nom.bdezonia.zorbage.procedure.Procedure2;
 import nom.bdezonia.zorbage.sampling.IntegerIndex;
 import nom.bdezonia.zorbage.sampling.SamplingIterator;
@@ -93,6 +102,65 @@ import nom.bdezonia.zorbage.type.real.float64.Float64Member;
  *
  */
 public class Scifio {
+
+	/**
+	 * 
+	 * @param <II>
+	 * @param <I>
+	 * @param <O>
+	 * @param filename
+	 * @param alg
+	 * @param data
+	 * @return
+	 */
+	public static <II extends Algebra<II,I>, I extends GetAsBigDecimal, O extends NativeType<O>>
+	
+		boolean saveDataAs(String filename, II alg, DimensionedDataSource<I> data)
+			
+	{
+		I inputValue = alg.construct();
+		
+		long[] dims = DataSourceUtils.dimensions(data);
+		
+		O outputType = outputType(alg, inputValue);
+		
+		if (outputType == null) {
+			
+			System.out.println("Data not saved! Cannot find a mapping from input data type ("+alg.typeDescription()+") to a compatible output data type!");
+			return false;
+		}
+
+		CellImgFactory<O> imgFactory = new CellImgFactory<O>(outputType);
+		
+		Img<O> img = imgFactory.create(dims);
+		
+		long i = 0;
+		
+		// TODO: must make sure cursor pixel ordering matches zorbage conventions
+		
+		Cursor<O> cursor = img.cursor();
+		
+		while (cursor.hasNext()) {
+			
+			O outputValue = cursor.next();
+			
+			data.rawData().get(i, inputValue);
+
+			setValue(outputValue, inputValue);
+			
+			i++;
+		}
+		
+		SCIFIOConfig config = new SCIFIOConfig();
+		
+		config.writerSetFailIfOverwriting(false);
+		
+		ImgSaver saver = new ImgSaver();
+		
+		saver.saveImg(filename, img, config);
+		
+		return true;
+	}	
 
 	/**
 	 * 
@@ -297,6 +365,86 @@ public class Scifio {
 		}
 		
 		return bundle;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static <II extends Algebra<II,I>, I, O extends NativeType<O>>
+	
+		O outputType(II alg, I inputType)
+	{
+		if (inputType instanceof UnsignedInt8Member)
+			return (O) new UnsignedByteType();
+
+		if (inputType instanceof UnsignedInt16Member)
+			return (O) new UnsignedShortType();
+		
+		if (inputType instanceof UnsignedInt32Member)
+			return (O) new UnsignedIntType();
+		
+		if (inputType instanceof UnsignedInt64Member)
+			return (O) new UnsignedLongType();
+
+		if (inputType instanceof SignedInt8Member)
+			return (O) new ByteType();
+
+		if (inputType instanceof SignedInt16Member)
+			return (O) new ShortType();
+		
+		if (inputType instanceof SignedInt32Member)
+			return (O) new IntType();
+		
+		if (inputType instanceof SignedInt64Member)
+			return (O) new LongType();
+
+		if (inputType instanceof Float32Member)
+			return (O) new FloatType();
+
+		if (inputType instanceof Float64Member)
+			return (O) new DoubleType();
+
+		// final fallback. DoubleType for now. maybe there is a better mapping possible.
+		
+		if (inputType instanceof GetAsBigDecimal)
+			return (O) new DoubleType();
+
+		return null;
+	}
+	
+	private static <O extends NativeType<O>, I extends GetAsBigDecimal>
+	
+		void setValue(O output, I input)
+	{
+		BigDecimal value = input.getAsBigDecimal();
+		
+		if (output instanceof FloatType)
+			((FloatType)output).set(value.floatValue());
+
+		else if (output instanceof DoubleType)
+			((DoubleType)output).set(value.doubleValue());
+
+		else if (output instanceof ByteType)
+			((ByteType)output).set(value.byteValue());
+
+		else if (output instanceof ShortType)
+			((ShortType)output).set(value.shortValue());
+
+		else if (output instanceof IntType)
+			((IntType)output).set(value.intValue());
+
+		else if (output instanceof LongType)
+			((LongType)output).set(value.longValue());
+
+		else if (output instanceof UnsignedByteType)
+			((UnsignedByteType)output).set(value.shortValue());
+
+		else if (output instanceof UnsignedShortType)
+			((UnsignedShortType)output).set(value.intValue());
+
+		else if (output instanceof UnsignedIntType)
+			((UnsignedIntType)output).set(value.longValue());
+
+		else if (output instanceof UnsignedLongType)
+			((UnsignedLongType)output).set(value.toBigInteger());
 	}
 	
 	private static DimensionedDataSource<UnsignedInt8Member>
