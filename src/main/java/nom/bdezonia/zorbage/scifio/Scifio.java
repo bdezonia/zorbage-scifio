@@ -120,8 +120,6 @@ public class Scifio {
 	{
 		I inputValue = alg.construct();
 		
-		long[] dims = DataSourceUtils.dimensions(data);
-		
 		O outputType = outputType(alg, inputValue);
 		
 		if (outputType == null) {
@@ -130,25 +128,36 @@ public class Scifio {
 			return false;
 		}
 
+		long[] dims = DataSourceUtils.dimensions(data);
+		
+		int numD = dims.length;
+		
+		// use an Img that can have big dims
+		
 		CellImgFactory<O> imgFactory = new CellImgFactory<O>(outputType);
 		
 		Img<O> img = imgFactory.create(dims);
 		
-		long i = 0;
+		long[] position = new long[numD];
 		
-		// TODO: must make sure cursor pixel ordering matches zorbage conventions
+		IntegerIndex idx = new IntegerIndex(numD);
 		
-		Cursor<O> cursor = img.cursor();
+		Cursor<O> cursor = img.localizingCursor();
 		
 		while (cursor.hasNext()) {
 			
-			O outputValue = cursor.next();
+			cursor.next();
 			
-			data.rawData().get(i, inputValue);
+			cursor.localize(position);
+			
+			for (int i = 0; i < numD; i++) {
+				
+				idx.set(i, position[i]);
+			}
+			
+			data.get(idx, inputValue);
 
-			setValue(outputValue, inputValue);
-			
-			i++;
+			translateValue(inputValue, cursor.get());
 		}
 		
 		SCIFIOConfig config = new SCIFIOConfig();
@@ -412,7 +421,7 @@ public class Scifio {
 	
 	private static <O extends NativeType<O>, I extends GetAsBigDecimal>
 	
-		void setValue(O output, I input)
+		void translateValue(I input, O output)
 	{
 		BigDecimal value = input.getAsBigDecimal();
 		
