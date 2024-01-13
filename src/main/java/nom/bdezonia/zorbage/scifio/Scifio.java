@@ -28,6 +28,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.scijava.io.location.FileLocation;
+import org.scijava.io.location.Location;
 import org.scijava.io.location.URILocation;
 
 import io.scif.config.SCIFIOConfig;
@@ -175,250 +176,50 @@ public class Scifio {
 		return true;
 	}
 
-	/* FUTURE VERSION WHEN SCFIO FIXES BUG
-	 
-	public static
-	
-		DataBundle
-		
-			readAllDatasets(String filename)
-	{
-		try {
-		
-			URI uri = new URI("file", null, new File(filename).getAbsolutePath(), null);
-			
-			return readAllDatasets(uri);
-	
-		} catch (URISyntaxException e) {
-			
-			throw new IllegalArgumentException("Bad name for file: "+e.getMessage());
-		}
-	}
-
-	*/
-	
 	/**
 	 * 
 	 * @param filename
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
+	public static
+	
+		DataBundle
+		
+			readAllDatasets(String filename)
+	{
+		FileLocation location = new FileLocation(filename);
+		
+		return readAllDatasets(location);
+	}
+
+	/**
+	 * 
+	 * @param uri
+	 * @return
+	 */
 	public static
 	
 		DataBundle
 	
-			readAllDatasets(String filename)
+			readAllDatasets(URI uri)
+	{
+		URILocation location = new URILocation(uri);
+		
+		return readAllDatasets(location);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static
+	
+		DataBundle
+	
+			readAllDatasets(Location location)
 	{
 		DataBundle bundle = new DataBundle();
 		
 		ImgOpener opener = new ImgOpener();
 		
-		List<SCIFIOImgPlus<?>> results = opener.openImgs(new FileLocation(filename));
-
-		for (SCIFIOImgPlus<?> scifImgPlus : results) {
-			
-			Object elem = scifImgPlus.firstElement();
-			
-			if (elem instanceof UnsignedByteType) {
-				
-				bundle.mergeUInt8( loadUnsignedByteImage( (SCIFIOImgPlus<UnsignedByteType>) scifImgPlus) );
-			}
-			else if (elem instanceof ByteType) {
-				
-				bundle.mergeInt8( loadByteImage( (SCIFIOImgPlus<ByteType>) scifImgPlus) );
-			}
-			else if (elem instanceof UnsignedShortType) {
-				
-				bundle.mergeUInt16( loadUnsignedShortImage( (SCIFIOImgPlus<UnsignedShortType>) scifImgPlus) );
-			}
-			else if (elem instanceof ShortType) {
-				
-				bundle.mergeInt16( loadShortImage( (SCIFIOImgPlus<ShortType>) scifImgPlus) );
-			}
-			else if (elem instanceof UnsignedIntType) {
-				
-				bundle.mergeUInt32( loadUnsignedIntImage( (SCIFIOImgPlus<UnsignedIntType>) scifImgPlus) );
-			}
-			else if (elem instanceof IntType) {
-				
-				bundle.mergeInt32( loadIntImage( (SCIFIOImgPlus<IntType>) scifImgPlus) );
-			}
-			else if (elem instanceof UnsignedLongType) {
-				
-				bundle.mergeUInt64( loadUnsignedLongImage( (SCIFIOImgPlus<UnsignedLongType>) scifImgPlus) );
-			}
-			else if (elem instanceof LongType) {
-				
-				bundle.mergeInt64( loadLongImage( (SCIFIOImgPlus<LongType>) scifImgPlus) );
-			}
-			else if (elem instanceof FloatType) {
-				
-				bundle.mergeFlt32( loadFloatImage( (SCIFIOImgPlus<FloatType>) scifImgPlus) );
-			}
-			else if (elem instanceof DoubleType) {
-				
-				bundle.mergeFlt64( loadDoubleImage( (SCIFIOImgPlus<DoubleType>) scifImgPlus) );
-			}
-			else if (elem instanceof Unsigned2BitType) {
-				
-				bundle.mergeUInt2( loadUnsigned2BitImage( (SCIFIOImgPlus<Unsigned2BitType>) scifImgPlus) );
-			}
-			else if (elem instanceof Unsigned4BitType) {
-				
-				bundle.mergeUInt4( loadUnsigned4BitImage( (SCIFIOImgPlus<Unsigned4BitType>) scifImgPlus) );
-			}
-			else if (elem instanceof Unsigned12BitType) {
-				
-				bundle.mergeUInt12( loadUnsigned12BitImage( (SCIFIOImgPlus<Unsigned12BitType>) scifImgPlus) );
-			}
-			else if (elem instanceof Unsigned128BitType) {
-				
-				bundle.mergeUInt128( loadUnsigned128BitImage( (SCIFIOImgPlus<Unsigned128BitType>) scifImgPlus) );
-			}
-			else if (elem instanceof ComplexFloatType) {
-				
-				bundle.mergeComplexFlt32( loadComplexFloatImage( (SCIFIOImgPlus<ComplexFloatType>) scifImgPlus) );
-			}
-			else if (elem instanceof ComplexDoubleType) {
-				
-				bundle.mergeComplexFlt64( loadComplexDoubleImage( (SCIFIOImgPlus<ComplexDoubleType>) scifImgPlus) );
-			}
-			else if (elem instanceof ARGBType) {
-				
-				bundle.mergeArgb( loadARGBTypeImage( (SCIFIOImgPlus<ARGBType>) scifImgPlus) );
-			}
-			else if (elem instanceof UnsignedVariableBitLengthType) {
-				
-				UnsignedVariableBitLengthType type = (UnsignedVariableBitLengthType) elem;
-				
-				int bpp = type.getBitsPerPixel();
-				
-				if (bpp < 1)
-					throw new IllegalArgumentException("bit per pix must be > 0");
-				
-				switch (bpp) {
-				
-				case 1:
-					
-					bundle.mergeUInt1( loadUnsignedV1BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					break;
-					
-				case 2:
-					
-					bundle.mergeUInt2( loadUnsignedV2BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					break;
-					
-				case 3:
-					
-					bundle.mergeUInt3( loadUnsignedV3BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					break;
-					
-				case 4:
-					
-					bundle.mergeUInt4( loadUnsignedV4BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					break;
-					
-				case 5:
-					
-					bundle.mergeUInt5( loadUnsignedV5BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					break;
-					
-				case 6:
-					
-					bundle.mergeUInt6( loadUnsignedV6BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					break;
-					
-				case 7:
-					
-					bundle.mergeUInt7( loadUnsignedV7BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					break;
-					
-				case 8:
-					
-					bundle.mergeUInt8( loadUnsignedV8BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					break;
-					
-				case 9:
-					
-					bundle.mergeUInt9( loadUnsignedV9BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					break;
-					
-				case 10:
-					
-					bundle.mergeUInt10( loadUnsignedV10BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					break;
-					
-				case 11:
-					
-					bundle.mergeUInt11( loadUnsignedV11BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					break;
-					
-				case 12:
-					
-					bundle.mergeUInt12( loadUnsignedV12BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					break;
-					
-				case 13:
-					
-					bundle.mergeUInt13( loadUnsignedV13BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					break;
-					
-				case 14:
-					
-					bundle.mergeUInt14( loadUnsignedV14BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					break;
-					
-				case 15:
-					
-					bundle.mergeUInt15( loadUnsignedV15BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					break;
-					
-				case 16:
-
-					bundle.mergeUInt16( loadUnsignedV16BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					break;
-					
-				default:
-					
-					if (bpp <= 32) {
-						
-						bundle.mergeUInt32( loadUnsignedV32BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					}
-					else if (bpp <= 64) {
-						
-						bundle.mergeUInt64( loadUnsignedV64BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					}
-					else if (bpp <= 128) {
-						
-						bundle.mergeUInt128( loadUnsignedV128BitImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					}
-					else { // bpp > 128
-						
-						bundle.mergeBigInt( loadUnsignedBigIntImage( (SCIFIOImgPlus<UnsignedVariableBitLengthType>) scifImgPlus) );
-					}
-					break;
-				}
-			}
-			else
-				System.out.println("scifio image is of unknown type: " + elem);
-		}
-		
-		return bundle;
-	}
-	
-	/**
-	 * 
-	 * @param fileURI
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public static DataBundle readAllDatasets(URI fileURI) {
-		
-		DataBundle bundle = new DataBundle();
-		
-		ImgOpener opener = new ImgOpener();
-		
-		List<SCIFIOImgPlus<?>> results = opener.openImgs(new URILocation(fileURI));
+		List<SCIFIOImgPlus<?>> results = opener.openImgs(location);
 
 		for (SCIFIOImgPlus<?> scifImgPlus : results) {
 			
