@@ -40,7 +40,7 @@ public class Main {
 //		String filename = "/home/bdz/images/imagej-samples/clown.jpg";
 //		String filename = "/home/bdz/images/modis/modis.hdf";
 
-		DataBundle bundle = Scifio.loadAllDatasets(filename);
+		DataBundle bundle = Scifio.readAllDatasets(filename);
 		
 		System.out.println(bundle.flts.size());
 		System.out.println(bundle.flts.get(0).numDimensions());

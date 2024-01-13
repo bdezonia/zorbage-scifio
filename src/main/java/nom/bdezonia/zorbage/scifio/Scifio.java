@@ -115,7 +115,7 @@ public class Scifio {
 	 */
 	public static <II extends Algebra<II,I>, I extends GetAsBigDecimal, O extends NativeType<O>>
 	
-		boolean saveDataAs(String filename, II alg, DimensionedDataSource<I> data)
+		boolean writeAs(String filename, II alg, DimensionedDataSource<I> data)
 			
 	{
 		I inputValue = alg.construct();
@@ -177,7 +177,7 @@ public class Scifio {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static DataBundle loadAllDatasets(String filename) {
+	public static DataBundle readAllDatasets(String filename) {
 		
 		DataBundle bundle = new DataBundle();
 		
