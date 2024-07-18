@@ -23,6 +23,7 @@
  */
 package nom.bdezonia.zorbage.scifio;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
@@ -164,8 +165,24 @@ public class Scifio {
 
 			translateValue(inputValue, cursor.get());
 		}
+
+		// HACKY fix to a SCIFIO bug
+		//   Writing as tif files can sometimes append data rather than
+		//     completely overwriting data. This can cause exceptions
+		//     later. So delete the target file before we do anything.
+		
+		File f = new File(filename);
+		
+		if (f.exists() && f.isFile()) {
+			
+			if (!f.delete())
+				
+				return false;
+		}
 		
 		SCIFIOConfig config = new SCIFIOConfig();
+		
+		// with hacky fix above this is probably not necessary
 		
 		config.writerSetFailIfOverwriting(false);
 		
@@ -1531,4 +1548,5 @@ public class Scifio {
 		
 		output.metadata().putString("input-version", input.getMetadata().getVersion());
 	}
+
 }

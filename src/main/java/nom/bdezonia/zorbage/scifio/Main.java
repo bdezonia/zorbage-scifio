@@ -35,10 +35,10 @@ public class Main {
 	/* public */ static void main(String[] args)
 	{
 		String filename = "/home/bdz/images/fitsfile.fits";
-//		String filename = "/home/bdz/images/imagej-samples/lena-std.tif";
-//		String filename = "/home/bdz/images/imagej-samples/t1-head.tif";
-//		String filename = "/home/bdz/images/imagej-samples/clown.jpg";
-//		String filename = "/home/bdz/images/modis/modis.hdf";
+		//String filename = "/home/bdz/images/imagej-samples/lena-std.tif";
+		//String filename = "/home/bdz/images/imagej-samples/t1-head.tif";
+		//String filename = "/home/bdz/images/imagej-samples/clown.jpg";
+		//String filename = "/home/bdz/images/modis/modis.hdf";
 
 		DataBundle bundle = Scifio.readAllDatasets(filename);
 		
